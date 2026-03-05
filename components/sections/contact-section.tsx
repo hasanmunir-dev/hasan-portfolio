@@ -59,7 +59,7 @@ export function ContactSection() {
   async function onSubmit(values: ContactFormValues) {
     if (isSubmitting) return;
     try {
-      await api.post("/contact", values);
+      await api.post("/contact/portfolio", values);
 
       toast({
         title: "Message sent 🚀",
