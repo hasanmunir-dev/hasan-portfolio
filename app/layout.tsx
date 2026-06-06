@@ -115,7 +115,7 @@ export default function RootLayout({
           gtag('config', 'G-K8XQQEBG2R');`}
         </script> */}
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-K8XQQEBG2R"
+          src="https://www.googletagmanager.com/gtag/js?id=G-XJG9GJEDW2"
           strategy="afterInteractive"
         />
 
@@ -124,13 +124,9 @@ export default function RootLayout({
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-K8XQQEBG2R');
+            gtag('config', 'G-XJG9GJEDW2');
           `}
         </Script>
-        <meta
-          name="google-site-verification"
-          content="-Wf8bv6qh5OoGIRwEC8N3n77_9Y_oeWkIEjipzVjhBw"
-        />
       </head>
       <body className="font-body bg-bg text-ink">
         {children}
