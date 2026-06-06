@@ -1,164 +1,185 @@
-import { Code2, Layers, Users, Zap,  } from "@/lib/icons";
-import { Card } from "@/components/ui/card";
+"use client";
 
-const highlights = [
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { ArchitectScene } from "@/components/scene-bg/architect-scene";
+
+const easeExpo = [0.16, 1, 0.3, 1] as const;
+
+function RevealText({
+  children,
+  delay = 0,
+  className = "",
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  className?: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
+
+  return (
+    <div ref={ref} className="overflow-hidden">
+      <motion.div
+        initial={{ y: "105%" }}
+        animate={inView ? { y: 0 } : {}}
+        transition={{ duration: 0.9, ease: easeExpo, delay }}
+        className={className}
+      >
+        {children}
+      </motion.div>
+    </div>
+  );
+}
+
+function FadeIn({
+  children,
+  delay = 0,
+  className = "",
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  className?: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 20 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, ease: easeExpo, delay }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+const MARQUEE_ITEMS = [
+  "Next.js", "React", "TypeScript", "Node.js", "Express",
+  "FastAPI", "Python", "MongoDB", "PostgreSQL", "REST APIs",
+  "System Design", "Tailwind CSS", "Docker", "AWS", "Redis",
+];
+
+const PHILOSOPHY = [
   {
-    icon: Code2,
-    title: "Systems Thinking",
-    description:
-      "I design systems, shape APIs, and think in terms of scalability, performance, and long-term maintainability.",
+    num: "01",
+    title: "Ship with intention",
+    body: "Every feature shipped should solve a real problem. I resist the urge to over-engineer and favor pragmatic solutions that can be iterated on.",
   },
   {
-    icon: Layers,
-    title: "Full-Stack Expertise",
-    description:
-      "Comfortable moving between frontend UX decisions and backend architecture without losing context.",
+    num: "02",
+    title: "Systems over hacks",
+    body: "Quick fixes accumulate debt. I build systems that scale — proper abstractions, clean architecture, and code that the next engineer can own.",
   },
   {
-    icon: Users,
-    title: "Team Collaboration",
-    description:
-      "10+ months working with clients and teams, translating business requirements into technical solutions.",
-  },
-  {
-    icon: Zap,
-    title: "Pragmatic Mindset",
-    description:
-      "Solve the problem first, write readable code, optimize only when it matters, ship and improve.",
+    num: "03",
+    title: "Data-driven decisions",
+    body: "Opinions are cheap without evidence. I measure, monitor, and let real user behavior guide technical and product decisions.",
   },
 ];
 
 export function AboutSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+
   return (
-    <section id="about" className="py-24 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center space-y-4 mb-16">
-          <div className="inline-flex items-center px-4 py-2 rounded-full border border-primary/30 bg-primary/5 text-sm font-medium text-primary mb-4">
-            <span className="relative flex h-2 w-2 mr-2">
-              <span className="animate-pulse absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
-            </span>
-            About My Journey
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
-            More Than Code
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Computer Science student and Full-Stack Software Engineer with
-            hands-on experience building real-world, production-grade
-            applications that solve real problems.
-          </p>
+    <section id="about" ref={sectionRef} className="section section-bg relative">
+      <ArchitectScene />
+      <div className="grid-overlay opacity-50" />
+      <div className="section-inner">
+
+        {/* Section header */}
+        <div className="flex items-center gap-4 mb-16">
+          <span className="text-label text-fire">02</span>
+          <div className="h-px flex-1 bg-stroke" />
+          <span className="text-label text-ink-3">IDENTITY</span>
         </div>
 
-        <div className="space-y-8 mb-16">
-          <Card className="p-6 sm:p-8">
-            <div className="prose prose-neutral dark:prose-invert max-w-none">
-              <p className="text-base leading-relaxed">
-                I&apos;m a Computer Science student and Full-Stack Software Engineer
-                with hands-on experience building real-world, production-grade
-                web applications. My journey has been defined by learning,
-                building, and continuously refining my craft.
-              </p>
+        {/* Main headline */}
+        <div className="mb-16 md:mb-24">
+          <RevealText className="text-section text-ink leading-none">
+            THE
+          </RevealText>
+          <RevealText delay={0.08} className="text-section text-outlined leading-none">
+            ARCHITECT
+          </RevealText>
+        </div>
 
-              <p className="text-base leading-relaxed">
-                My core strength lies in the <strong>MERN stack{" "}
-                (MongoDB, Express.js, React.js, Node.js)</strong>, complemented by{" "}
-                <strong>Next.js</strong>, <strong>Python</strong>, <strong>FastAPI</strong>, and working
-                knowledge of Django. I don&apos;t just write code—I design
-                systems, shape APIs, and think in terms of scalability,
-                performance, and long-term maintainability.
-              </p>
-              <p className="text-base leading-relaxed">
-                I&apos;ve spent over <strong>1 year</strong> working within
-                real software engineering environments, collaborating with
-                clients and teams, translating business requirements into
-                technical solutions, and shipping features that actually get
-                used.
-              </p>
-              {/* <p className="text-base leading-relaxed">
-                Earlier in my journey, I <strong>taught C programming</strong>,
-                which sharpened my fundamentals and reinforced a disciplined
-                approach to problem-solving, memory, and logic. Teaching helped
-                me learn how to explain complex ideas clearly—an underrated but
-                powerful engineering skill.
-              </p> */}
-            </div>
-          </Card>
+        {/* Two-column editorial layout */}
+        <div className="grid md:grid-cols-2 gap-12 md:gap-20 mb-20 md:mb-28">
+          <FadeIn delay={0.1}>
+            <p className="text-xl md:text-2xl leading-relaxed text-ink font-light font-body">
+              I build systems that matter — from database schema
+              to pixel-perfect interfaces. Not a frontend dev who
+              dabbles in backend, not a backend dev who avoids CSS.
+              A genuine full-stack engineer.
+            </p>
+          </FadeIn>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {highlights.map((item, index) => (
-              <Card
-                key={index}
-                className="p-6 hover:shadow-lg transition-shadow duration-300"
-              >
-                <item.icon className="h-10 w-10 mb-4 text-primary" />
-                <h3 className="font-semibold mb-2">{item.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {item.description}
+          <div className="flex flex-col gap-6">
+            <FadeIn delay={0.15}>
+              <div className="border-l-2 border-fire pl-6">
+                <p className="text-sm text-ink-2 leading-relaxed">
+                  Based in Pakistan, I've built and deployed production systems
+                  at TSN and Websolixs — handling everything from API design and
+                  database optimization to building the UIs users interact with daily.
+                  I specialize in the MERN stack, Next.js, and Python/FastAPI ecosystems.
                 </p>
-              </Card>
+              </div>
+            </FadeIn>
+            <FadeIn delay={0.2}>
+              <div className="flex flex-wrap gap-2 mt-2">
+                {["MERN Stack", "Next.js", "FastAPI", "System Design", "REST APIs"].map((t) => (
+                  <span
+                    key={t}
+                    className="text-label text-ink-3 border border-stroke px-3 py-1.5"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </FadeIn>
+          </div>
+        </div>
+
+        {/* Marquee */}
+        <div className="border-y border-stroke py-4 mb-20 md:mb-28 overflow-hidden">
+          <div className="marquee-track">
+            <div className="marquee-content">
+              {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
+                <span key={i} className="text-label text-ink-3 px-8">
+                  {item}
+                  <span className="text-fire ml-8">·</span>
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Engineering philosophy */}
+        <div>
+          <FadeIn>
+            <p className="text-label text-ink-3 mb-10">ENGINEERING PHILOSOPHY</p>
+          </FadeIn>
+          <div className="grid md:grid-cols-3 gap-8">
+            {PHILOSOPHY.map((item, i) => (
+              <FadeIn key={item.num} delay={i * 0.1}>
+                <div className="group">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="text-label text-fire">{item.num}</span>
+                    <div className="h-px flex-1 bg-stroke group-hover:bg-fire transition-colors duration-500" />
+                  </div>
+                  <h3 className="font-display text-2xl text-ink mb-3 tracking-wide">
+                    {item.title.toUpperCase()}
+                  </h3>
+                  <p className="text-sm text-ink-2 leading-relaxed">{item.body}</p>
+                </div>
+              </FadeIn>
             ))}
           </div>
         </div>
-
-        <Card className="p-6 sm:p-8 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 border-blue-200 dark:border-blue-800">
-          <h3 className="font-semibold mb-4 text-lg">
-            My Engineering Philosophy
-          </h3>
-          <ul className="space-y-3 text-sm mb-4">
-            <li className="flex items-start gap-3">
-              <span className="text-primary text-lg mt-0.5">→</span>
-              <div>
-                <strong>Solve the problem first</strong>
-                <p className="text-muted-foreground text-xs mt-0.5">
-                  Understand what needs to be built before writing code
-                </p>
-              </div>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="text-primary text-lg mt-0.5">→</span>
-              <div>
-                <strong>Write readable, maintainable code</strong>
-                <p className="text-muted-foreground text-xs mt-0.5">
-                  Code is read more often than written; clarity is paramount
-                </p>
-              </div>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="text-primary text-lg mt-0.5">→</span>
-              <div>
-                <strong>Optimize only when it matters</strong>
-                <p className="text-muted-foreground text-xs mt-0.5">
-                  Premature optimization is the root of all evil
-                </p>
-              </div>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="text-primary text-lg mt-0.5">→</span>
-              <div>
-                <strong>Ship, measure, improve</strong>
-                <p className="text-muted-foreground text-xs mt-0.5">
-                  Get something out there, learn from real usage, iterate
-                </p>
-              </div>
-            </li>
-          </ul>
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            I value clean architecture, predictable APIs, and user-centric
-            design. I&apos;m constantly learning, questioning patterns, and
-            refining my craft—because good software isn&apos;t written once,
-            it&apos;s evolved.
-          </p>
-        </Card>
-
-        {/* <div className="flex justify-center mt-8">
-          <Link href="/about">
-            <Button variant="outline" className="gap-2">
-              Read My Full Story
-              <ArrowRight className="h-4 w-4" />
-            </Button>
-          </Link>
-        </div> */}
       </div>
     </section>
   );

@@ -1,46 +1,40 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { HeroSection }      from "@/components/sections/hero-section";
 
-import { HeroSection } from "@/components/sections/hero-section";
-import { AboutSection } from "@/components/sections/about-section";
-import { SkillsSection } from "@/components/sections/skills-section";
-const CertificateSection = dynamic(
-  () =>
-    import("@/components/sections/certificates-section").then(
-      (mod) => mod.CertificateSection
-    ),
-  { ssr: false }
+const WorldCanvas = dynamic(
+  () => import("@/components/world/WorldCanvas"),
+  { ssr: false, loading: () => null }
 );
-
-const ExperienceSection = dynamic(
-  () =>
-    import("@/components/sections/experience-section").then(
-      (mod) => mod.ExperienceSection
-    ),
-  { ssr: false }
-);
-import { ProjectsSection } from "@/components/sections/projects-section";
-import { VerifiedCredentialsSection } from "@/components/sections/badges-section";
-import { ContactSection } from "@/components/sections/contact-section";
-import { Navigation } from "@/components/navigation";
-import { Footer } from "@/components/footer";
-import { AnimatedGradientBg } from "@/components/animated-gradient-bg";
+import { AboutSection }     from "@/components/sections/about-section";
+import { SkillsSection }    from "@/components/sections/skills-section";
+import { ExperienceSection } from "@/components/sections/experience-section";
+import { ProjectsSection }  from "@/components/sections/projects-section";
+import { ContactSection }          from "@/components/sections/contact-section";
+import { CertificationsSection }   from "@/components/sections/certifications-section";
+import { Navigation }              from "@/components/navigation";
+import { Footer }                  from "@/components/footer";
+import { CustomCursor }            from "@/components/cursor";
+import { ScrollProgress }          from "@/components/scroll-progress";
 
 export default function Home() {
   return (
-    <main className="min-h-screen  relative bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10">
-      <AnimatedGradientBg />
+    <>
+      <WorldCanvas />
+      <CustomCursor />
+      <ScrollProgress />
       <Navigation />
-      <HeroSection />
-      <AboutSection />
-      <SkillsSection />
-      <CertificateSection />
-      <ExperienceSection />
-      {/* <ProjectsSection /> */}
-      <VerifiedCredentialsSection />
-      <ContactSection />
+      <main>
+        <HeroSection />
+        <AboutSection />
+        <ProjectsSection />
+        <SkillsSection />
+        <ExperienceSection />
+        <CertificationsSection />
+        <ContactSection />
+      </main>
       <Footer />
-    </main>
+    </>
   );
 }

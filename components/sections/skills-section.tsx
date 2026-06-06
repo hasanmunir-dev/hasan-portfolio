@@ -1,163 +1,178 @@
-import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
-import { AnimatedProgressBar } from "@/components/animated-progress-bar";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+"use client";
 
-const skillsByProficiency = [
-  {
-    level: "Expert",
-    skills: [
-      { name: "React.js", percentage: 95 },
-      { name: "Next.js", percentage: 90 },
-      { name: "TypeScript", percentage: 90 },
-      { name: "Node.js", percentage: 92 },
-      { name: "Express.js", percentage: 90 },
-      { name: "MongoDB", percentage: 88 },
-    ],
-  },
-  {
-    level: "Advanced",
-    skills: [
-      { name: "Python", percentage: 85 },
-      { name: "FastAPI", percentage: 85 },
-      { name: "PostgreSQL", percentage: 83 },
-      { name: "Tailwind CSS", percentage: 85 },
-      { name: "System Design", percentage: 80 },
-      { name: "REST APIs", percentage: 88 },
-    ],
-  },
-  {
-    level: "Intermediate",
-    skills: [
-      { name: "Django", percentage: 75 },
-      { name: "Docker", percentage: 72 },
-      { name: "AWS", percentage: 68 },
-      { name: "GraphQL", percentage: 70 },
-      { name: "Redis", percentage: 65 },
-      { name: "CI/CD", percentage: 70 },
-    ],
-  },
+import { useRef, useState } from "react";
+import { motion, useInView } from "framer-motion";
+import { SkillsScene } from "@/components/scene-bg/skills-scene";
+
+const easeExpo = [0.16, 1, 0.3, 1] as const;
+
+function FadeIn({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 20 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, ease: easeExpo, delay }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+const SKILLS = [
+  { name: "React",        level: 95, cat: "Frontend"  },
+  { name: "Next.js",      level: 90, cat: "Frontend"  },
+  { name: "TypeScript",   level: 90, cat: "Frontend"  },
+  { name: "Tailwind CSS", level: 85, cat: "Frontend"  },
+  { name: "Node.js",      level: 92, cat: "Backend"   },
+  { name: "Express",      level: 90, cat: "Backend"   },
+  { name: "FastAPI",      level: 85, cat: "Backend"   },
+  { name: "Python",       level: 85, cat: "Backend"   },
+  { name: "REST APIs",    level: 88, cat: "Backend"   },
+  { name: "MongoDB",      level: 88, cat: "Database"  },
+  { name: "PostgreSQL",   level: 83, cat: "Database"  },
+  { name: "Redis",        level: 65, cat: "Database"  },
+  { name: "System Design",level: 80, cat: "Systems"   },
+  { name: "Docker",       level: 72, cat: "Systems"   },
+  { name: "AWS",          level: 68, cat: "Systems"   },
+  { name: "GraphQL",      level: 70, cat: "Systems"   },
 ];
 
-const skillCategories = [
-  {
-    category: "Frontend",
-    skills: [
-      "React.js",
-      "Next.js",
-      "TypeScript",
-      "JavaScript",
-      "HTML/CSS",
-      "Tailwind CSS",
-      "Redux",
-      "React Query",
-    ],
-  },
-  {
-    category: "Backend",
-    skills: [
-      "Node.js",
-      "Express.js",
-      "FastAPI",
-      "Python",
-      "Django",
-      "REST APIs",
-      "GraphQL",
-      "WebSockets",
-    ],
-  },
-  {
-    category: "Databases",
-    skills: ["MongoDB", "PostgreSQL", "MySQL", "Supabase", "Database Design"],
-  },
-  {
-    category: "Tools & Systems",
-    skills: [
-      "Git",
-      "Docker",
-      "CI/CD",
-      "AWS",
-      "Vercel",
-      "Postman",
-      "Insomnia",
-      "Linux",
-      "Nginx",
-    ],
-  },
-];
+const CATS = ["All", "Frontend", "Backend", "Database", "Systems"] as const;
+type Cat = typeof CATS[number];
+
+function SkillRow({ skill, index }: { skill: typeof SKILLS[0]; index: number }) {
+  const [hovered, setHovered] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-5% 0px" });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, x: -20 }}
+      animate={inView ? { opacity: 1, x: 0 } : {}}
+      transition={{ duration: 0.6, ease: easeExpo, delay: index * 0.04 }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className="group flex items-center border-b border-stroke py-5 cursor-none"
+      data-hover
+    >
+      {/* Number */}
+      <span className="text-label text-ink-3 w-8 shrink-0">
+        {String(index + 1).padStart(2, "0")}
+      </span>
+
+      {/* Name */}
+      <span className={`skill-name flex-1 ${hovered ? "text-fire" : "text-ink"}`}>
+        {skill.name}
+      </span>
+
+      {/* Category */}
+      <span className="hidden md:block text-label text-ink-3 w-28 text-right">
+        {skill.cat}
+      </span>
+
+      {/* Level bar */}
+      <div className="hidden md:flex items-center gap-3 w-40 justify-end">
+        <div className="flex-1 h-px bg-stroke overflow-hidden">
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={inView ? { scaleX: skill.level / 100 } : {}}
+            transition={{ duration: 1.2, ease: easeExpo, delay: index * 0.04 + 0.3 }}
+            className="h-full bg-fire origin-left"
+          />
+        </div>
+        <span className="text-label text-ink-3 shrink-0">{skill.level}%</span>
+      </div>
+
+      {/* Arrow reveal on hover */}
+      <motion.span
+        initial={{ opacity: 0, x: -8 }}
+        animate={hovered ? { opacity: 1, x: 0 } : { opacity: 0, x: -8 }}
+        transition={{ duration: 0.2 }}
+        className="ml-4 text-fire text-sm shrink-0"
+      >
+        →
+      </motion.span>
+    </motion.div>
+  );
+}
 
 export function SkillsSection() {
+  const [active, setActive] = useState<Cat>("All");
+
+  const filtered = active === "All"
+    ? SKILLS
+    : SKILLS.filter((s) => s.cat === active);
+
   return (
-    <section id="skills" className="py-24 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center space-y-4 mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
-            Technical Skills
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            A comprehensive toolkit for building scalable, production-ready
-            applications
-          </p>
+    <section id="skills" className="section section-bg relative">
+      <SkillsScene />
+      <div className="grid-overlay opacity-50" />
+      <div className="section-inner">
+
+        {/* Header */}
+        <div className="flex items-center gap-4 mb-16">
+          <span className="text-label text-fire">03</span>
+          <div className="h-px flex-1 bg-stroke" />
+          <span className="text-label text-ink-3">ARSENAL</span>
         </div>
 
-        <Tabs defaultValue="proficiency" className="w-full mb-12">
-          <TabsList className="grid w-full max-w-md mx-auto grid-cols-2">
-            <TabsTrigger value="proficiency">Proficiency</TabsTrigger>
-            <TabsTrigger value="categories">Categories</TabsTrigger>
-          </TabsList>
+        {/* Headline */}
+        <div className="mb-16">
+          <FadeIn>
+            <h2 className="text-section text-ink leading-none">TECH</h2>
+          </FadeIn>
+          <FadeIn delay={0.08}>
+            <h2 className="text-section text-outlined leading-none">STACK</h2>
+          </FadeIn>
+        </div>
 
-          <TabsContent value="proficiency" className="space-y-8">
-            {skillsByProficiency.map((level, idx) => (
-              <Card key={idx} className="p-6 sm:p-8">
-                <h3 className="text-lg font-semibold mb-6">{level.level}</h3>
-                <div className="grid sm:grid-cols-2 gap-6">
-                  {level.skills.map((skill, skillIdx) => (
-                    <AnimatedProgressBar
-                      key={skillIdx}
-                      label={skill.name}
-                      percentage={skill.percentage}
-                    />
-                  ))}
-                </div>
-              </Card>
+        {/* Filter tabs */}
+        <FadeIn delay={0.1} className="mb-10">
+          <div className="flex flex-wrap gap-2">
+            {CATS.map((cat) => (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setActive(cat)}
+                className={`text-label px-4 py-2 border transition-all duration-200 ${
+                  active === cat
+                    ? "border-fire text-fire"
+                    : "border-stroke text-ink-2 hover:border-ink-2"
+                }`}
+                data-hover
+              >
+                {cat}
+              </button>
             ))}
-          </TabsContent>
+          </div>
+        </FadeIn>
 
-          <TabsContent value="categories">
-            <div className="grid md:grid-cols-2 gap-6">
-              {skillCategories.map((category, index) => (
-                <Card
-                  key={index}
-                  className="p-6 hover:shadow-lg transition-all duration-300"
-                >
-                  <h3 className="text-lg font-semibold mb-4">
-                    {category.category}
-                  </h3>
-                  <div className="flex flex-wrap gap-2">
-                    {category.skills.map((skill, skillIndex) => (
-                      <Badge
-                        key={skillIndex}
-                        variant="secondary"
-                        className="px-3 py-1 text-sm"
-                      >
-                        {skill}
-                      </Badge>
-                    ))}
-                  </div>
-                </Card>
-              ))}
+        {/* Skills list */}
+        <div>
+          {filtered.map((skill, i) => (
+            <SkillRow key={skill.name} skill={skill} index={i} />
+          ))}
+        </div>
+
+        {/* Bottom stat line */}
+        <FadeIn delay={0.2} className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-8">
+          {[
+            { label: "Technologies", value: "16+" },
+            { label: "Years coding", value: "3+"  },
+            { label: "Production systems", value: "5+" },
+            { label: "Certifications", value: "3"  },
+          ].map(({ label, value }) => (
+            <div key={label}>
+              <p className="font-display text-5xl md:text-6xl text-ink">{value}</p>
+              <p className="text-label text-ink-3 mt-1">{label}</p>
             </div>
-          </TabsContent>
-        </Tabs>
-
-        <Card className="p-6 sm:p-8 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 border-blue-200 dark:border-blue-800">
-          <p className="text-sm text-center text-muted-foreground leading-relaxed">
-            <strong className="text-foreground">MERN Stack Specialist</strong>{" "}
-            with strong Python/FastAPI and Django capabilities. Experienced in building
-            authentication systems, dashboards, booking logic, chatbot
-            integrations, and complex database modeling.
-          </p>
-        </Card>
+          ))}
+        </FadeIn>
       </div>
     </section>
   );

@@ -1,38 +1,59 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import Script from "next/script";
+import { Bebas_Neue, DM_Sans, Space_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
-import { ThemeProvider } from "@/components/theme-provider";
 
-const inter = Inter({ subsets: ["latin"] });
+const bebasNeue = Bebas_Neue({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+});
+
+const dmSans = DM_Sans({
+  weight: ["300", "400", "500"],
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
+});
+
+const spaceMono = Space_Mono({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://hasan-munir-portfolio.vercel.app"),
   title: {
-    default: "Muhammad Hasan Munir | Full-Stack Software Engineer",
-    template: "%s | Muhammad Hasan Munir",
+    default: "Hasan Munir — Full-Stack Engineer",
+    template: "%s — Hasan Munir",
   },
   description:
-    "Muhammad Hasan Munir is a Full-Stack Software Engineer specializing in MERN, Next.js, FastAPI, and scalable web systems. Portfolio, projects, and credentials.",
+    "Full-Stack Software Engineer building production-grade systems with Next.js, React, Node.js, and FastAPI. Based in Pakistan.",
   keywords: [
     "Muhammad Hasan Munir",
-    "Full Stack Software Engineer",
-    "MERN Developer",
+    "Full Stack Engineer",
     "Next.js Developer",
-    "FastAPI Developer",
+    "React Developer",
+    "FastAPI",
+    "MERN Stack",
     "Software Engineer Portfolio",
   ],
   openGraph: {
-    title: "Muhammad Hasan Munir | Full-Stack Software Engineer",
+    title: "Hasan Munir — Full-Stack Engineer",
     description:
-      "Full-Stack Software Engineer with real-world experience building production-grade web applications using MERN, Next.js, and FastAPI.",
+      "Full-Stack Software Engineer building production-grade systems with Next.js, React, Node.js, and FastAPI.",
     url: "https://hasan-munir-portfolio.vercel.app",
-    siteName: "Muhammad Hasan Munir Portfolio",
+    siteName: "Hasan Munir",
     images: [
       {
-        url: "https://hasan-munir-portfolio.vercel.app/og/og.png",
-        // width: 1200,
-        // height: 630,
-        alt: "Muhammad Hasan Munir – Full-Stack Software Engineer",
+        url: "https://hasan-munir-portfolio.vercel.app/og.png",
+        width: 1200,
+        height: 630,
+        alt: "Hasan Munir – Full-Stack Engineer",
       },
     ],
     locale: "en_US",
@@ -40,19 +61,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Muhammad Hasan Munir | Full-Stack Software Engineer",
-    description:
-      "Full-Stack Software Engineer specializing in MERN, Next.js, FastAPI, and scalable systems.",
-    images: ["https://hasan-munir-portfolio.vercel.app/og/og.png"],
+    title: "Hasan Munir — Full-Stack Engineer",
+    description: "Full-Stack Engineer. Next.js · React · Node · FastAPI.",
+    images: ["https://hasan-munir-portfolio.vercel.app/og.png"],
   },
-  // twitter: {
-  // card: "summary_large_image",
-  // images: [
-  //   {
-  //     url: "https://bolt.new/static/og_default.png",
-  //   },
-  // ],
-  // },
   authors: [{ name: "Muhammad Hasan Munir" }],
   creator: "Muhammad Hasan Munir",
 };
@@ -63,7 +75,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${bebasNeue.variable} ${dmSans.variable} ${spaceMono.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <script
           type="application/ld+json"
@@ -89,13 +105,36 @@ export default function RootLayout({
             }),
           }}
         />
-      <link rel="shortcut icon" href="/icons/favicon.ico" type="image/x-icon" />
+        {/* 
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-K8XQQEBG2R"></script>
+        <script>{`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-K8XQQEBG2R');`}
+        </script> */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-K8XQQEBG2R"
+          strategy="afterInteractive"
+        />
+
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-K8XQQEBG2R');
+          `}
+        </Script>
+        <meta
+          name="google-site-verification"
+          content="-Wf8bv6qh5OoGIRwEC8N3n77_9Y_oeWkIEjipzVjhBw"
+        />
       </head>
-      <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
-          <Toaster />
-        </ThemeProvider>
+      <body className="font-body bg-bg text-ink">
+        {children}
+        <Toaster />
       </body>
     </html>
   );

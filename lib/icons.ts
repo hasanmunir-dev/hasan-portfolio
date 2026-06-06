@@ -9,7 +9,17 @@ export {
   Moon,
   Sun,
   Code2,
+  Download,
   Layers,
   Users,
-  Zap, Mail, Linkedin, Github, Send, Briefcase, ExternalLink, ChevronDown, MoonIcon, Download, Eye
+  Zap,
+  Mail,
+  Linkedin,
+  Github,
+  Send,
+  Briefcase,
+  Eye,
+  ExternalLink,
+  ChevronDown,
+  MoonIcon,
 } from "lucide-react";

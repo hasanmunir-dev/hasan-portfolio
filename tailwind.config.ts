@@ -9,17 +9,15 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-      },
-      borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
-      },
       colors: {
+        bg:         '#030303',
+        surface:    '#0C0C0C',
+        'surface-2':'#161616',
+        stroke:     '#1F1F1F',
+        ink:        '#E8E5DE',
+        'ink-2':    '#7A7872',
+        'ink-3':    '#3A3835',
+        fire:       '#FF4500',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -53,59 +51,56 @@ const config: Config = {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
-        chart: {
-          '1': 'hsl(var(--chart-1))',
-          '2': 'hsl(var(--chart-2))',
-          '3': 'hsl(var(--chart-3))',
-          '4': 'hsl(var(--chart-4))',
-          '5': 'hsl(var(--chart-5))',
-        },
+      },
+      fontFamily: {
+        display: ['var(--font-display)', 'sans-serif'],
+        body:    ['var(--font-body)', 'sans-serif'],
+        mono:    ['var(--font-mono)', 'monospace'],
+      },
+      borderRadius: {
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)',
       },
       keyframes: {
         'accordion-down': {
-          from: {
-            height: '0',
-          },
-          to: {
-            height: 'var(--radix-accordion-content-height)',
-          },
+          from: { height: '0' },
+          to:   { height: 'var(--radix-accordion-content-height)' },
         },
         'accordion-up': {
-          from: {
-            height: 'var(--radix-accordion-content-height)',
-          },
-          to: {
-            height: '0',
-          },
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to:   { height: '0' },
         },
-        blob: {
-          '0%, 100%': {
-            transform: 'translate(0, 0) scale(1)',
-          },
-          '33%': {
-            transform: 'translate(30px, -50px) scale(1.1)',
-          },
-          '66%': {
-            transform: 'translate(-20px, 20px) scale(0.9)',
-          },
+        'marquee': {
+          from: { transform: 'translateX(0%)' },
+          to:   { transform: 'translateX(-50%)' },
         },
-        'progress-grow': {
-          from: {
-            width: '0%',
-          },
-          to: {
-            width: 'var(--progress-width)',
-          },
+        'scan': {
+          '0%':   { top: '-2px', opacity: '0' },
+          '10%':  { opacity: '1' },
+          '90%':  { opacity: '1' },
+          '100%': { top: '100%', opacity: '0' },
+        },
+        'fade-up': {
+          from: { opacity: '0', transform: 'translateY(20px)' },
+          to:   { opacity: '1', transform: 'translateY(0)' },
+        },
+        'counter-in': {
+          from: { opacity: '0', transform: 'translateY(10px)' },
+          to:   { opacity: '1', transform: 'translateY(0)' },
         },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out',
-        blob: 'blob 7s infinite',
-        'progress-grow': 'progress-grow 1.5s ease-out forwards',
+        'accordion-up':   'accordion-up 0.2s ease-out',
+        'marquee':        'marquee 30s linear infinite',
+        'scan':           'scan 3s ease-in-out infinite',
+        'fade-up':        'fade-up 0.8s cubic-bezier(0.16,1,0.3,1) forwards',
+        'counter-in':     'counter-in 0.4s ease forwards',
       },
     },
   },
   plugins: [require('tailwindcss-animate')],
 };
+
 export default config;

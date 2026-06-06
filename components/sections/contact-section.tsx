@@ -1,286 +1,179 @@
 "use client";
 
-import { useState } from "react";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ContactScene } from "@/components/scene-bg/contact-scene";
 import { useForm } from "react-hook-form";
-import { Mail, Linkedin, Github, Send } from "@/lib/icons";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { api } from "@/lib/axios";
-import {
-  contactFormSchema,
-  ContactFormValues,
-} from "@/schema/contact-form.schema";
+import { contactFormSchema, ContactFormValues } from "@/schema/contact-form.schema";
+
+const easeExpo = [0.16, 1, 0.3, 1] as const;
+
+function FadeIn({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 20 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, ease: easeExpo, delay }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+const LINKS = [
+  { label: "EMAIL", value: "hasanmunir406@gmail.com", href: "mailto:hasanmunir406@gmail.com" },
+  { label: "LINKEDIN", value: "/in/muhammad-hasan-munir", href: "https://www.linkedin.com/in/muhammad-hasan-munir-b9a50b394/" },
+  { label: "GITHUB", value: "github.com/hasanm4-6", href: "https://github.com/hasanm4-6" },
+];
 
 export function ContactSection() {
   const { toast } = useToast();
-  // const [isSubmitting, setIsSubmitting] = useState(false);
+
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      message: "",
-    },
+    defaultValues: { name: "", email: "", message: "" },
   });
 
   const isSubmitting = form.formState.isSubmitting;
 
-  // const [formData, setFormData] = useState({
-  //   name: "",
-  //   email: "",
-  //   message: "",
-  // });
-
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   setIsSubmitting(true);
-
-  //   setTimeout(() => {
-  //     toast({
-  //       title: "Message sent!",
-  //       description: "Thank you for reaching out. I'll get back to you soon.",
-  //     });
-  //     setFormData({ name: "", email: "", message: "" });
-  //     setIsSubmitting(false);
-  //   }, 1000);
-  // };
   async function onSubmit(values: ContactFormValues) {
     if (isSubmitting) return;
     try {
-      await api.post("/contact/portfolio", values);
-
-      toast({
-        title: "Message sent 🚀",
-        description: "Thanks for reaching out. I’ll get back to you shortly.",
-      });
-
+      await api.post("/contact", values);
+      toast({ title: "Sent.", description: "I'll get back to you shortly." });
       form.reset();
-    } catch (error: any) {
-      console.error("Contact form error:", error);
-
+    } catch (error: unknown) {
+      const msg = (error as { response?: { data?: { message?: string } } })?.response?.data?.message;
       toast({
         variant: "destructive",
-        title: "Something went wrong",
-        description:
-          error?.response?.data?.message ||
-          "Failed to send message. Please try again later.",
+        title: "Failed to send",
+        description: msg ?? "Please try again or email directly.",
       });
     }
   }
 
-  // const handleChange = (
-  //   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  // ) => {
-  //   setFormData((prev) => ({
-  //     ...prev,
-  //     [e.target.name]: e.target.value,
-  //   }));
-  // };
-
   return (
-    <section id="contact" className="py-24 px-4 sm:px-6 lg:px-8 ">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center space-y-4 mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
-            Let&apos;s Connect
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            I&apos;m always interested in hearing about new projects and
-            opportunities. Feel free to reach out!
-          </p>
+    <section id="contact" className="section section-bg relative">
+      <ContactScene />
+      <div className="grid-overlay opacity-50" />
+      <div className="section-inner">
+
+        {/* Header */}
+        <div className="flex items-center gap-4 mb-16">
+          <span className="text-label text-fire">05</span>
+          <div className="h-px flex-1 bg-stroke" />
+          <span className="text-label text-ink-3">SIGNAL</span>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
-          <a href="mailto:hasanmunir406@gmail.com">
-            <Card className="p-6 text-center hover:shadow-lg transition-shadow">
-              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                <Mail className="h-6 w-6 text-primary" />
-              </div>
-              <h3 className="font-semibold mb-2">Email</h3>
-              <span
-                // href="mailto:hasanmunir406@gmail.com"
-                className="text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
-                hasanmunir406@gmail.com
-              </span>
-            </Card>
-          </a>
-
-          <a
-            href="https://www.linkedin.com/in/muhammad-hasan-munir-b9a50b394/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Card className="p-6 text-center hover:shadow-lg transition-shadow">
-              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                <Linkedin className="h-6 w-6 text-primary" />
-              </div>
-              <h3 className="font-semibold mb-2">LinkedIn</h3>
-              <span
-                // href="https://www.linkedin.com/in/muhammad-hasan-munir-b9a50b394/"
-                // target="_blank"
-                // rel="noopener noreferrer"
-                className="text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
-                Connect with me
-              </span>
-            </Card>
-          </a>
-
-          <a
-            href="https://github.com/hasanm4-6"
-            target="_blank"
-            rel="noopener noreferrer"
-            // className="text-sm text-muted-foreground hover:text-primary transition-colors"
-          >
-            {/* View my code */}
-            <Card className="p-6 text-center hover:shadow-lg transition-shadow">
-              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                <Github className="h-6 w-6 text-primary" />
-              </div>
-              <h3 className="font-semibold mb-2">GitHub</h3>
-              <span
-                // href="https://github.com/hasanm4-6"
-                // target="_blank"
-                // rel="noopener noreferrer"
-                className="text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
-                View my code
-              </span>
-            </Card>
-          </a>
+        {/* Big CTA headline */}
+        <div className="mb-16">
+          <FadeIn>
+            <h2 className="text-section text-ink leading-none">LET'S</h2>
+          </FadeIn>
+          <FadeIn delay={0.08}>
+            <h2 className="text-section text-outlined leading-none">BUILD</h2>
+          </FadeIn>
+          <FadeIn delay={0.14}>
+            <h2 className="text-section text-ink leading-none">SOMETHING.</h2>
+          </FadeIn>
         </div>
 
-        <Card className="p-8">
-          <Form {...form}>
-            {/* <form onSubmit={handleSubmit} className="space-y-6"> */}
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <div className="grid sm:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  {/* <label htmlFor="name" className="text-sm font-medium">
-                    Name
-                  </label> 
-                  <Input
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="Your name"
-                  required
-                /> */}
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Name</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Your name"
-                            className="bg-transparent"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+        <div className="grid md:grid-cols-2 gap-16 md:gap-24">
+
+          {/* Left: links + statement */}
+          <div>
+            <FadeIn>
+              <p className="text-sm text-ink-2 leading-relaxed mb-12 max-w-sm">
+                Available for full-time roles, freelance projects, and technical consultations.
+                Fast response, clear communication, zero ghosting.
+              </p>
+            </FadeIn>
+
+            <div className="space-y-0">
+              {LINKS.map(({ label, value, href }, i) => (
+                <FadeIn key={label} delay={i * 0.08}>
+                  <a
+                    href={href}
+                    target={href.startsWith("mailto") ? undefined : "_blank"}
+                    rel="noopener noreferrer"
+                    data-hover
+                    className="group flex items-center justify-between border-b border-stroke py-5 hover:border-fire transition-colors duration-300"
+                  >
+                    <span className="text-label text-ink-3 group-hover:text-fire transition-colors duration-300">
+                      {label}
+                    </span>
+                    <span className="text-sm text-ink-2 group-hover:text-ink transition-colors duration-300 flex items-center gap-2">
+                      {value}
+                      <span className="text-fire opacity-0 group-hover:opacity-100 transition-opacity duration-300">↗</span>
+                    </span>
+                  </a>
+                </FadeIn>
+              ))}
+            </div>
+          </div>
+
+          {/* Right: form */}
+          <FadeIn delay={0.1}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6" noValidate>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-label text-ink-3" htmlFor="name">NAME</label>
+                  <input
+                    id="name"
+                    placeholder="Your name"
+                    className="w-full px-4 py-3 text-sm"
+                    {...form.register("name")}
                   />
-                </div>
-                <div className="space-y-2">
-                  {/* <label htmlFor="email" className="text-sm font-medium">
-                    Email
-                  </label> 
-                  <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="your.email@example.com"
-                  required
-                /> */}
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="email"
-                            placeholder="your.email@example.com"
-                            className="bg-transparent"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-              <div className="space-y-2">
-                {/* <label htmlFor="message" className="text-sm font-medium">
-                  Message
-                </label> 
-                <Textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                placeholder="Tell me about your project or opportunity..."
-                rows={6}
-                required
-              /> */}
-                <FormField
-                  control={form.control}
-                  name="message"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Message</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          rows={6}
-                          placeholder="Tell me about your project or opportunity..."
-                          className="bg-transparent"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
+                  {form.formState.errors.name && (
+                    <span className="text-xs text-red-500">{form.formState.errors.name.message}</span>
                   )}
-                />
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-label text-ink-3" htmlFor="email">EMAIL</label>
+                  <input
+                    id="email"
+                    type="email"
+                    placeholder="your@email.com"
+                    className="w-full px-4 py-3 text-sm"
+                    {...form.register("email")}
+                  />
+                  {form.formState.errors.email && (
+                    <span className="text-xs text-red-500">{form.formState.errors.email.message}</span>
+                  )}
+                </div>
               </div>
-              <Button
-                type="submit"
-                size="lg"
-                className="w-full gap-2"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  "Sending..."
-                ) : (
-                  <>
-                    <Send className="h-4 w-4" />
-                    Send Message
-                  </>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-label text-ink-3" htmlFor="message">MESSAGE</label>
+                <textarea
+                  id="message"
+                  rows={6}
+                  placeholder="Tell me about your project or opportunity..."
+                  className="w-full px-4 py-3 text-sm resize-none"
+                  {...form.register("message")}
+                />
+                {form.formState.errors.message && (
+                  <span className="text-xs text-red-500">{form.formState.errors.message.message}</span>
                 )}
-              </Button>
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="btn-accent w-full justify-center disabled:opacity-50"
+              >
+                {isSubmitting ? "SENDING..." : "SEND MESSAGE →"}
+              </button>
             </form>
-          </Form>
-        </Card>
+          </FadeIn>
+        </div>
       </div>
     </section>
   );

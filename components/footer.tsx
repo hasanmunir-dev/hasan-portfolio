@@ -1,15 +1,14 @@
 export function Footer() {
+  const year = new Date().getFullYear();
+
   return (
-    <footer className="border-t py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-muted-foreground text-center sm:text-left">
-            Built with Next.js, TypeScript, and Tailwind CSS
-          </p>
-          <p className="text-sm text-muted-foreground">
-            &copy;{new Date().getFullYear()} All rights reserved
-          </p>
-        </div>
+    <footer className="border-t border-stroke px-6 md:px-10 py-8">
+      <div className="max-w-[1400px] mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+        <span className="font-display text-xl text-ink-3 tracking-wider">H·M</span>
+        <p className="text-label text-ink-3 text-center">
+          DESIGNED &amp; ENGINEERED BY HASAN MUNIR — {year}
+        </p>
+        <p className="text-label text-ink-3">NEXT.JS · FRAMER MOTION</p>
       </div>
     </footer>
   );
