@@ -191,7 +191,7 @@ export function HeroSection() {
               </a>
               <div className="flex items-center gap-3 ml-2">
                 <a
-                  href="https://github.com/hasanm4-6"
+                  href="https://github.com/hasanmunir-dev"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-label text-ink-2 hover:text-ink transition-colors duration-200"
@@ -201,7 +201,7 @@ export function HeroSection() {
                 </a>
                 <span className="text-ink-3 text-xs">·</span>
                 <a
-                  href="https://www.linkedin.com/in/muhammad-hasan-munir-b9a50b394/"
+                  href="https://www.linkedin.com/in/hasanmunir-dev/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-label text-ink-2 hover:text-ink transition-colors duration-200"

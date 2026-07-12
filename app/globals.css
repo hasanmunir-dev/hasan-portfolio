@@ -333,7 +333,6 @@ hr {
 /* ─── FORM INPUTS ────────────────────────────────────── */
 input, textarea {
   background: var(--surface);
-  border: 1px solid var(--border);
   color: var(--text);
   font-family: var(--font-body);
   transition: border-color 0.2s ease;
@@ -346,7 +345,7 @@ input:focus, textarea:focus {
 }
 
 input::placeholder, textarea::placeholder {
-  color: var(--text-3);
+  color: var(--text-2);
 }
 
 /* ─── SHADCN COMPAT ──────────────────────────────────── */

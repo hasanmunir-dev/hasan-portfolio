@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://hasan-munir-portfolio.vercel.app/sitemap.xml",
+    sitemap: "https://hasanmunir.dev/sitemap.xml",
   };
 }

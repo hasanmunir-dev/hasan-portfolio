@@ -29,8 +29,8 @@ function FadeIn({ children, delay = 0, className = "" }: { children: React.React
 
 const LINKS = [
   { label: "EMAIL", value: "hasanmunir406@gmail.com", href: "mailto:hasanmunir406@gmail.com" },
-  { label: "LINKEDIN", value: "/in/muhammad-hasan-munir", href: "https://www.linkedin.com/in/muhammad-hasan-munir-b9a50b394/" },
-  { label: "GITHUB", value: "github.com/hasanm4-6", href: "https://github.com/hasanm4-6" },
+  { label: "LINKEDIN", value: "/in/hasanmunir-dev", href: "https://www.linkedin.com/in/hasanmunir-dev/" },
+  { label: "GITHUB", value: "github.com/hasanmunir-dev", href: "https://github.com/hasanmunir-dev" },
 ];
 
 export function ContactSection() {
@@ -124,11 +124,11 @@ export function ContactSection() {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6" noValidate>
               <div className="grid sm:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-label text-ink-3" htmlFor="name">NAME</label>
+                  <label className="text-label text-ink-2" htmlFor="name">NAME</label>
                   <input
                     id="name"
                     placeholder="Your name"
-                    className="w-full px-4 py-3 text-sm"
+                    className="w-full px-4 py-3 text-sm border-b border-stroke"
                     {...form.register("name")}
                   />
                   {form.formState.errors.name && (
@@ -136,12 +136,12 @@ export function ContactSection() {
                   )}
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-label text-ink-3" htmlFor="email">EMAIL</label>
+                  <label className="text-label text-ink-2" htmlFor="email">EMAIL</label>
                   <input
                     id="email"
                     type="email"
                     placeholder="your@email.com"
-                    className="w-full px-4 py-3 text-sm"
+                    className="w-full px-4 py-3 text-sm border-b border-stroke"
                     {...form.register("email")}
                   />
                   {form.formState.errors.email && (
@@ -151,12 +151,12 @@ export function ContactSection() {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-label text-ink-3" htmlFor="message">MESSAGE</label>
+                <label className="text-label text-ink-2" htmlFor="message">MESSAGE</label>
                 <textarea
                   id="message"
                   rows={6}
                   placeholder="Tell me about your project or opportunity..."
-                  className="w-full px-4 py-3 text-sm resize-none"
+                  className="w-full px-4 py-3 text-sm resize-none border-b border-stroke"
                   {...form.register("message")}
                 />
                 {form.formState.errors.message && (
