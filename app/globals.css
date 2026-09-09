@@ -7,11 +7,11 @@
   --bg:         #030303;
   --surface:    #0C0C0C;
   --surface-2:  #161616;
-  --border:     #1F1F1F;
-  --border-light: rgba(255,255,255,0.06);
-  --text:       #E8E5DE;
-  --text-2:     #7A7872;
-  --text-3:     #3A3835;
+  --border:     #2A2A2A;
+  --border-light: rgba(255,255,255,0.08);
+  --text:       #F3F1EC;
+  --text-2:     #B4AFA6;
+  --text-3:     #7C776E;
   --accent:     #FF4500;
   --accent-dim: rgba(255, 69, 0, 0.10);
   --accent-glow: rgba(255, 69, 0, 0.25);
@@ -36,7 +36,7 @@
   --secondary: 0 0% 9.8%;
   --secondary-foreground: 30 8% 91%;
   --muted: 0 0% 9.8%;
-  --muted-foreground: 30 4% 47%;
+  --muted-foreground: 30 5% 66%;
   --accent: 0 0% 9.8%;
   --accent-foreground: 30 8% 91%;
   --destructive: 0 84.2% 60.2%;
@@ -62,14 +62,16 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
-  overflow-x: hidden;
+  /* `clip` (not `hidden`) stops horizontal overflow without turning the page
+     into a scroll container — otherwise `position: sticky` breaks everywhere. */
+  overflow-x: clip;
 }
 
 body {
   background-color: var(--bg);
   color: var(--text);
   font-family: var(--font-body);
-  overflow-x: hidden;
+  overflow-x: clip;
   cursor: none;
 }
 
@@ -162,6 +164,16 @@ body {
 .section {
   position: relative;
   padding: clamp(80px, 12vw, 160px) clamp(24px, 6vw, 80px);
+  /* Skip rendering work for sections far offscreen — faster first paint */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1200px;
+}
+
+/* Experience relies on a sticky child — containment would trap it, so opt out. */
+#experience.section {
+  content-visibility: visible;
+  contain: none;
+  contain-intrinsic-size: auto;
 }
 
 .section-inner {
@@ -388,7 +400,7 @@ footer {
   background: linear-gradient(90deg, transparent, var(--accent), transparent);
 }
 
-/* Hero: fully transparent — 3D world is the background */
+/* Hero: fully transparent - 3D world is the background */
 .hero-bg {
   background: linear-gradient(
     to bottom,
@@ -399,15 +411,84 @@ footer {
   );
 }
 
-/* Content sections: dark center for readability, transparent edges for scene bleed-through */
+/* Content sections: dark center for readability, transparent edges for backdrop bleed-through */
 .section-bg {
   background: linear-gradient(
     to bottom,
     rgba(2, 4, 8, 0.0)  0%,
-    rgba(2, 4, 8, 0.88) 6%,
-    rgba(2, 4, 8, 0.88) 94%,
+    rgba(2, 4, 8, 0.82) 7%,
+    rgba(2, 4, 8, 0.82) 93%,
     rgba(2, 4, 8, 0.0)  100%
   );
+}
+
+/* ─── ANIMATED BACKDROP ──────────────────────────────── */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(1100px 760px at 50% -12%, #0b0b12 0%, transparent 62%),
+    var(--bg);
+}
+
+.backdrop__aurora {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  will-change: transform;
+}
+
+.backdrop__a1 {
+  width: 46vw; height: 46vw; left: -8vw; top: -8vw;
+  background: radial-gradient(circle at 32% 32%, rgba(255, 69, 0, 0.20), transparent 70%);
+  animation: aurora-1 26s ease-in-out infinite;
+}
+.backdrop__a2 {
+  width: 54vw; height: 54vw; right: -16vw; top: 14vh;
+  background: radial-gradient(circle at 50% 50%, rgba(66, 108, 232, 0.17), transparent 70%);
+  animation: aurora-2 32s ease-in-out infinite;
+}
+.backdrop__a3 {
+  width: 40vw; height: 40vw; left: 18vw; bottom: -14vw;
+  background: radial-gradient(circle at 50% 50%, rgba(38, 190, 178, 0.10), transparent 70%);
+  animation: aurora-3 38s ease-in-out infinite;
+}
+
+.backdrop__grid {
+  position: absolute;
+  inset: -25% 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(ellipse 78% 60% at 50% 38%, #000 28%, transparent 82%);
+  mask-image: radial-gradient(ellipse 78% 60% at 50% 38%, #000 28%, transparent 82%);
+}
+
+.backdrop__vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 100% 78% at 50% 46%, transparent 42%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+@keyframes aurora-1 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(6vw, 4vh, 0) scale(1.12); }
+}
+@keyframes aurora-2 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(-5vw, -3vh, 0) scale(1.10); }
+}
+@keyframes aurora-3 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(3vw, -5vh, 0) scale(1.15); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop__aurora { animation: none !important; }
 }
 
 .text-fire { color: var(--accent); }

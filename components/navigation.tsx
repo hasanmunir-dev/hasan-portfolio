@@ -22,6 +22,14 @@ export function Navigation() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Lock page scroll while the mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -138,23 +146,27 @@ export function Navigation() {
             animate={{ opacity: 1, clipPath: "inset(0 0 0% 0)" }}
             exit={{ opacity: 0, clipPath: "inset(0 0 100% 0)" }}
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 z-40 flex flex-col justify-center px-8"
+            className="fixed inset-0 z-40 flex flex-col justify-center overflow-y-auto px-6 py-24"
             style={{ background: "var(--bg)" }}
           >
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col border-y border-stroke divide-y">
               {NAV_ITEMS.map(({ label, href, num }, i) => (
                 <motion.button
                   key={href}
-                  initial={{ x: -60, opacity: 0 }}
+                  initial={{ x: -40, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: i * 0.07 + 0.15, ease: [0.16, 1, 0.3, 1], duration: 0.6 }}
+                  transition={{ delay: i * 0.06 + 0.12, ease: [0.16, 1, 0.3, 1], duration: 0.5 }}
                   onClick={() => scrollTo(href)}
-                  className="flex items-baseline gap-4 text-left group"
+                  className="flex items-baseline gap-3 py-4 text-left group"
                   style={{ cursor: "none" }}
                 >
-                  <span className="text-label" style={{ color: "var(--text-3)" }}>{num}</span>
                   <span
-                    className="font-display text-7xl group-hover:text-fire transition-colors duration-200"
+                    style={{ color: "var(--text-3)", fontFamily: "var(--font-mono)", fontSize: "10px" }}
+                  >
+                    {num}
+                  </span>
+                  <span
+                    className="font-display text-4xl sm:text-5xl group-hover:text-fire transition-colors duration-200"
                     style={{ color: "var(--text)" }}
                   >
                     {label}
@@ -162,7 +174,7 @@ export function Navigation() {
                 </motion.button>
               ))}
             </div>
-            <div className="mt-12 flex items-center gap-2">
+            <div className="mt-10 flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
               <span className="text-label" style={{ color: "var(--text-2)" }}>
                 Available for opportunities

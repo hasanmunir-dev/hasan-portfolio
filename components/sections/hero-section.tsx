@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { HeroScene } from "@/components/scene-bg/hero-scene";
 
 const SCRAMBLE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%";
 
@@ -66,7 +65,6 @@ export function HeroSection() {
       ref={ref}
       className="hero-bg relative min-h-screen flex flex-col overflow-hidden"
     >
-      <HeroScene />
       <div className="grid-overlay" />
 
       {/* Scan line reveal */}
@@ -100,7 +98,7 @@ export function HeroSection() {
         <span className="text-label text-ink-2">OPEN TO WORK</span>
       </motion.div>
 
-      {/* Main content — parallax wrapper */}
+      {/* Main content - parallax wrapper */}
       <motion.div
         style={{ y: yName, opacity }}
         className="relative z-10 flex-1 flex flex-col justify-center px-6 md:px-10 pt-32 pb-24"
@@ -145,7 +143,7 @@ export function HeroSection() {
                   transition={{ duration: 0.9, ease: easeExpo, delay: 1.0 }}
                   className="font-display text-3xl md:text-5xl lg:text-6xl tracking-wider text-ink"
                 >
-                  FULL–STACK ENGINEER
+                  FULL-STACK ENGINEER
                 </motion.p>
               </div>
               <div className="overflow-hidden">
@@ -169,47 +167,47 @@ export function HeroSection() {
             className="mt-10 md:mt-14 flex flex-col md:flex-row items-start md:items-end justify-between gap-8"
           >
             <p className="max-w-xs text-sm leading-relaxed text-ink-2">
-              Building production-grade systems that scale. Real-world engineering
-              across the full stack — from REST APIs to reactive UIs.
+              I build multi-tenant SaaS end to end, database to interface.
+              School, freight, and POS platforms at TSN; Zikron and Attrisense
+              on my own.
             </p>
 
             <div className="flex flex-wrap items-center gap-3">
               <button
                 type="button"
                 onClick={() => scrollTo("#projects")}
-                className="btn-accent"
+                className="btn-accent !px-9 !py-4 !text-sm"
+                data-hover
               >
                 View Work <span>↗</span>
               </button>
               <a
-                href="/resume/Muhammad Hasan Munir Resume.pdf"
+                href="/resume/Muhammad Hasan Munir.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-outline"
+                className="btn-outline !px-9 !py-4 !text-sm"
+                data-hover
               >
-                Resume
+                Resume <span>↓</span>
               </a>
-              <div className="flex items-center gap-3 ml-2">
-                <a
-                  href="https://github.com/hasanmunir-dev"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-label text-ink-2 hover:text-ink transition-colors duration-200"
-                  data-hover
-                >
-                  GH
-                </a>
-                <span className="text-ink-3 text-xs">·</span>
-                <a
-                  href="https://www.linkedin.com/in/hasanmunir-dev/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-label text-ink-2 hover:text-ink transition-colors duration-200"
-                  data-hover
-                >
-                  LI
-                </a>
-              </div>
+              <a
+                href="https://github.com/hasanmunir-dev"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-outline !px-9 !py-4 !text-sm"
+                data-hover
+              >
+                GitHub <span>↗</span>
+              </a>
+              <a
+                href="https://www.linkedin.com/in/hasanmunir-dev/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-outline !px-9 !py-4 !text-sm"
+                data-hover
+              >
+                LinkedIn <span>↗</span>
+              </a>
             </div>
           </motion.div>
         </div>

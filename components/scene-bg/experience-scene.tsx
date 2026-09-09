@@ -9,12 +9,12 @@ const easeOut = [0.16, 1, 0.3, 1] as const;
   Architecture Evolution Visualization
   Shows increasing system complexity across 3 career stages.
 
-  RIGHT SIDE (x:750-1400) — three mini architecture diagrams:
-    TSN      (top, y~180)  : Enterprise stack — full microservices
-    Websolixs(mid, y~390)  : Backend microservices — FastAPI + Postgres
+  RIGHT SIDE (x:750-1400) - three mini architecture diagrams:
+    TSN      (top, y~180)  : Enterprise stack - full microservices
+    Websolixs(mid, y~390)  : Backend microservices - FastAPI + Postgres
     SeeBiz   (bot, y~600)  : Simple MERN stack
 
-  LEFT SIDE (x:60-520) — vertical career timeline (retained)
+  LEFT SIDE (x:60-520) - vertical career timeline (retained)
 */
 
 const NODE_W = 84;

@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import { SkillsScene } from "@/components/scene-bg/skills-scene";
+import { Parallax } from "@/components/parallax";
 
 const easeExpo = [0.16, 1, 0.3, 1] as const;
 
@@ -34,14 +34,13 @@ const SKILLS = [
   { name: "REST APIs",    level: 88, cat: "Backend"   },
   { name: "MongoDB",      level: 88, cat: "Database"  },
   { name: "PostgreSQL",   level: 83, cat: "Database"  },
-  { name: "Redis",        level: 65, cat: "Database"  },
-  { name: "System Design",level: 80, cat: "Systems"   },
-  { name: "Docker",       level: 72, cat: "Systems"   },
-  { name: "AWS",          level: 68, cat: "Systems"   },
-  { name: "GraphQL",      level: 70, cat: "Systems"   },
+  { name: "VPS Deployment",          level: 82, cat: "DevOps" },
+  { name: "Environment Configuration", level: 85, cat: "DevOps" },
+  { name: "Nginx",                    level: 75, cat: "DevOps" },
+  { name: "CI/CD Pipelines",          level: 72, cat: "DevOps" },
 ];
 
-const CATS = ["All", "Frontend", "Backend", "Database", "Systems"] as const;
+const CATS = ["All", "Frontend", "Backend", "Database", "DevOps"] as const;
 type Cat = typeof CATS[number];
 
 function SkillRow({ skill, index }: { skill: typeof SKILLS[0]; index: number }) {
@@ -110,7 +109,6 @@ export function SkillsSection() {
 
   return (
     <section id="skills" className="section section-bg relative">
-      <SkillsScene />
       <div className="grid-overlay opacity-50" />
       <div className="section-inner">
 
@@ -122,14 +120,14 @@ export function SkillsSection() {
         </div>
 
         {/* Headline */}
-        <div className="mb-16">
+        <Parallax speed={46} className="mb-16">
           <FadeIn>
             <h2 className="text-section text-ink leading-none">TECH</h2>
           </FadeIn>
           <FadeIn delay={0.08}>
             <h2 className="text-section text-outlined leading-none">STACK</h2>
           </FadeIn>
-        </div>
+        </Parallax>
 
         {/* Filter tabs */}
         <FadeIn delay={0.1} className="mb-10">
@@ -162,7 +160,7 @@ export function SkillsSection() {
         {/* Bottom stat line */}
         <FadeIn delay={0.2} className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
-            { label: "Technologies", value: "16+" },
+            { label: "Technologies", value: "15+" },
             { label: "Years coding", value: "3+"  },
             { label: "Production systems", value: "5+" },
             { label: "Certifications", value: "3"  },

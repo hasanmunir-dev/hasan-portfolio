@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { CertScene } from "@/components/scene-bg/cert-scene";
+import { Parallax } from "@/components/parallax";
 
 const easeExpo = [0.16, 1, 0.3, 1] as const;
 
@@ -277,6 +277,7 @@ function CertRow({
                         height="240"
                         frameBorder="0"
                         scrolling="no"
+                        loading="lazy"
                         title="Credly Verified Badge"
                         className="block"
                       />
@@ -295,7 +296,6 @@ function CertRow({
 export function CertificationsSection() {
   return (
     <section id="credentials" className="section section-bg relative overflow-hidden">
-      <CertScene />
       <div className="grid-overlay opacity-40" />
       <div className="section-inner relative z-10">
         {/* Section header */}
@@ -306,10 +306,10 @@ export function CertificationsSection() {
         </div>
 
         {/* Headline */}
-        <div className="mb-6">
+        <Parallax speed={46} className="mb-6">
           <RevealText className="text-section text-ink leading-none">VERIFIED</RevealText>
           <RevealText delay={0.08} className="text-section text-outlined leading-none">EXPERTISE</RevealText>
-        </div>
+        </Parallax>
 
         {/* Lead */}
         <FadeIn delay={0.15} className="mb-16">

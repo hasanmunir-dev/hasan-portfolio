@@ -54,7 +54,7 @@ const LAYER_LABELS = [
   { y: 725,  label: "INFRA",         tier: "infra"   },
 ];
 
-const ARCH_LEFT = 520; // divider x — architecture starts here
+const ARCH_LEFT = 520; // divider x - architecture starts here
 
 const NODE_W = 124;
 const NODE_H = 44;

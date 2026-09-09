@@ -6,7 +6,7 @@ export function Footer() {
       <div className="max-w-[1400px] mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
         <span className="font-display text-xl text-ink-3 tracking-wider">H·M</span>
         <p className="text-label text-ink-3 text-center">
-          DESIGNED &amp; ENGINEERED BY HASAN MUNIR — {year}
+          DESIGNED &amp; ENGINEERED BY HASAN MUNIR, {year}
         </p>
         <p className="text-label text-ink-3">NEXT.JS · FRAMER MOTION</p>
       </div>

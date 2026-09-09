@@ -14,25 +14,25 @@ const easeOut = [0.16, 1, 0.3, 1] as const;
 */
 
 const NODES = [
-  // FRONTEND — left cluster
+  // FRONTEND - left cluster
   { id: "react",   x: 140,  y: 95,  label: "REACT",       tier: "frontend", note: "UI Framework"       },
   { id: "next",    x: 660,  y: 80,  label: "NEXT.JS",     tier: "frontend", note: "SSR · SSG · RSC"    },
   { id: "ts",      x: 1180, y: 95,  label: "TYPESCRIPT",  tier: "frontend", note: "Type Safety"         },
   { id: "tw",      x: 140,  y: 175, label: "TAILWIND",    tier: "frontend", note: "Utility CSS"         },
-  // BACKEND — center spread
+  // BACKEND - center spread
   { id: "node",    x: 250,  y: 295, label: "NODE.JS",     tier: "backend",  note: "JS Runtime"          },
   { id: "express", x: 660,  y: 280, label: "EXPRESS",     tier: "backend",  note: "HTTP Framework"      },
   { id: "fastapi", x: 1180, y: 295, label: "FASTAPI",     tier: "backend",  note: "Python ASGI"         },
   { id: "python",  x: 1180, y: 195, label: "PYTHON",      tier: "backend",  note: "Language"            },
   { id: "rest",    x: 660,  y: 390, label: "REST APIs",   tier: "backend",  note: "HTTP · JSON"         },
-  // DATA — wide spread
+  // DATA - wide spread
   { id: "mongo",   x: 140,  y: 510, label: "MONGODB",     tier: "data",     note: "Document Store"      },
   { id: "pg",      x: 660,  y: 510, label: "POSTGRES",    tier: "data",     note: "Relational DB"       },
   { id: "redis",   x: 1180, y: 510, label: "REDIS",       tier: "data",     note: "Cache · Pub/Sub"     },
-  // INFRA — center
+  // INFRA - center
   { id: "docker",  x: 400,  y: 640, label: "DOCKER",      tier: "infra",    note: "Containerization"    },
   { id: "graphql", x: 900,  y: 640, label: "GRAPHQL",     tier: "infra",    note: "Query Language"      },
-  // CLOUD — center
+  // CLOUD - center
   { id: "aws",     x: 660,  y: 760, label: "AWS",         tier: "cloud",    note: "EC2 · S3 · RDS"      },
 ];
 
@@ -113,7 +113,7 @@ export function SkillsScene() {
           />
         ))}
 
-        {/* ── Tier labels — left rail ───────────────────────────── */}
+        {/* Tier labels - left rail */}
         {TIER_BANDS.map((band) => (
           <motion.text
             key={`lbl-${band.tier}`}

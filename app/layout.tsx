@@ -28,8 +28,8 @@ const spaceMono = Space_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://hasanmunir.dev"),
   title: {
-    default: "Hasan Munir — Full-Stack Engineer",
-    template: "%s — Hasan Munir",
+    default: "Hasan Munir - Full-Stack Engineer",
+    template: "%s - Hasan Munir",
   },
   description:
     "Muhammad Hasan Munir is a Full-Stack Software Engineer from Pakistan specializing in Next.js, React, FastAPI, Node.js, Supabase, and scalable web applications.",
@@ -160,7 +160,7 @@ export const metadata: Metadata = {
     "Experienced Full Stack Developer",
   ],
   openGraph: {
-    title: "Hasan Munir — Full-Stack Engineer",
+    title: "Hasan Munir - Full-Stack Engineer",
     description:
       "Muhammad Hasan Munir is a Full-Stack Software Engineer from Pakistan specializing in Next.js, React, FastAPI, Node.js, Supabase, and scalable web applications.",
     url: "https://hasanmunir.dev",
@@ -170,7 +170,7 @@ export const metadata: Metadata = {
         url: "/og/og.jpg",
         width: 1200,
         height: 630,
-        alt: "Hasan Munir – Full-Stack Engineer",
+        alt: "Hasan Munir - Full-Stack Engineer",
       },
     ],
     locale: "en_US",
@@ -178,7 +178,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Hasan Munir — Full-Stack Engineer",
+    title: "Hasan Munir - Full-Stack Engineer",
     description: "Muhammad Hasan Munir is a Full-Stack Software Engineer from Pakistan specializing in Next.js, React, FastAPI, Node.js, Supabase, and scalable web applications.",
     images: ["/og/og.jpg"],
   },
@@ -233,10 +233,10 @@ export default function RootLayout({
         </script> */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-XJG9GJEDW2"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
 
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="google-analytics" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}

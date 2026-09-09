@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ContactScene } from "@/components/scene-bg/contact-scene";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
 import { api } from "@/lib/axios";
@@ -29,12 +28,13 @@ function FadeIn({ children, delay = 0, className = "" }: { children: React.React
 
 const LINKS = [
   { label: "EMAIL", value: "hasanmunir406@gmail.com", href: "mailto:hasanmunir406@gmail.com" },
-  { label: "LINKEDIN", value: "/in/hasanmunir-dev", href: "https://www.linkedin.com/in/hasanmunir-dev/" },
+  { label: "LINKEDIN", value: "linkedin/in/hasanmunir-dev", href: "https://www.linkedin.com/in/hasanmunir-dev/" },
   { label: "GITHUB", value: "github.com/hasanmunir-dev", href: "https://github.com/hasanmunir-dev" },
 ];
 
 export function ContactSection() {
   const { toast } = useToast();
+  const honeypotRef = useRef<HTMLInputElement>(null);
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
@@ -46,8 +46,8 @@ export function ContactSection() {
   async function onSubmit(values: ContactFormValues) {
     if (isSubmitting) return;
     try {
-      await api.post("/contact", values);
-      toast({ title: "Sent.", description: "I'll get back to you shortly." });
+      await api.post("/api/contact", { ...values, company: honeypotRef.current?.value ?? "" });
+      toast({ variant: "success", title: "Sent.", description: "I'll get back to you shortly." });
       form.reset();
     } catch (error: unknown) {
       const msg = (error as { response?: { data?: { message?: string } } })?.response?.data?.message;
@@ -61,7 +61,6 @@ export function ContactSection() {
 
   return (
     <section id="contact" className="section section-bg relative">
-      <ContactScene />
       <div className="grid-overlay opacity-50" />
       <div className="section-inner">
 
@@ -122,6 +121,16 @@ export function ContactSection() {
           {/* Right: form */}
           <FadeIn delay={0.1}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6" noValidate>
+              {/* honeypot — hidden from real users */}
+              <input
+                ref={honeypotRef}
+                type="text"
+                name="company"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="hidden"
+              />
               <div className="grid sm:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1.5">
                   <label className="text-label text-ink-2" htmlFor="name">NAME</label>

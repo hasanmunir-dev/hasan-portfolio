@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { ArchitectScene } from "@/components/scene-bg/architect-scene";
+import { Parallax } from "@/components/parallax";
 
 const easeExpo = [0.16, 1, 0.3, 1] as const;
 
@@ -72,7 +72,7 @@ const PHILOSOPHY = [
   {
     num: "02",
     title: "Systems over hacks",
-    body: "Quick fixes accumulate debt. I build systems that scale — proper abstractions, clean architecture, and code that the next engineer can own.",
+    body: "Quick fixes accumulate debt. I build systems that scale - proper abstractions, clean architecture, and code that the next engineer can own.",
   },
   {
     num: "03",
@@ -86,7 +86,6 @@ export function AboutSection() {
 
   return (
     <section id="about" ref={sectionRef} className="section section-bg relative">
-      <ArchitectScene />
       <div className="grid-overlay opacity-50" />
       <div className="section-inner">
 
@@ -98,21 +97,22 @@ export function AboutSection() {
         </div>
 
         {/* Main headline */}
-        <div className="mb-16 md:mb-24">
+        <Parallax speed={46} className="mb-16 md:mb-24">
           <RevealText className="text-section text-ink leading-none">
             THE
           </RevealText>
           <RevealText delay={0.08} className="text-section text-outlined leading-none">
             ARCHITECT
           </RevealText>
-        </div>
+        </Parallax>
 
         {/* Two-column editorial layout */}
         <div className="grid md:grid-cols-2 gap-12 md:gap-20 mb-20 md:mb-28">
           <FadeIn delay={0.1}>
             <p className="text-xl md:text-2xl leading-relaxed text-ink font-light font-body">
-              I build systems that matter — from database schema
-              to pixel-perfect interfaces. Not a frontend dev who
+              I build multi-tenant SaaS platforms end to end, from
+              Row-Level-Security data models and Express APIs to the
+              interfaces people use every day. Not a frontend dev who
               dabbles in backend, not a backend dev who avoids CSS.
               A genuine full-stack engineer.
             </p>
@@ -122,16 +122,19 @@ export function AboutSection() {
             <FadeIn delay={0.15}>
               <div className="border-l-2 border-fire pl-6">
                 <p className="text-sm text-ink-2 leading-relaxed">
-                  Based in Pakistan, I've built and deployed production systems
-                  at TSN and Websolixs — handling everything from API design and
-                  database optimization to building the UIs users interact with daily.
-                  I specialize in the MERN stack, Next.js, and Python/FastAPI ecosystems.
+                  Based in Pakistan. Over a year at TSN as lead developer on
+                  three multi-tenant B2B platforms, a school management system,
+                  a freight &amp; delivery platform, and a repair-shop POS, all on
+                  Next.js, Express, and Supabase with PostgreSQL Row-Level Security.
+                  Before that, a year-long apprenticeship at SeeBiz in a production
+                  MERN codebase. Solo, I've shipped Zikron, a personal-knowledge
+                  app, and Attrisense, an ML attrition-risk tool.
                 </p>
               </div>
             </FadeIn>
             <FadeIn delay={0.2}>
               <div className="flex flex-wrap gap-2 mt-2">
-                {["MERN Stack", "Next.js", "FastAPI", "System Design", "REST APIs"].map((t) => (
+                {["Multi-tenant SaaS", "Next.js", "Supabase", "PostgreSQL RLS", "System Design"].map((t) => (
                   <span
                     key={t}
                     className="text-label text-ink-3 border border-stroke px-3 py-1.5"

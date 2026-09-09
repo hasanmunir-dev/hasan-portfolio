@@ -49,7 +49,7 @@ const NODE_MAP = new Map<string, THREE.Vector3>(
   SERVICE_NODES.map((n) => [n.id, n.pos])
 );
 
-// Camera spline — 7 keyframes, one per section
+// Camera spline - 7 keyframes, one per section
 const CAM_PATH = new THREE.CatmullRomCurve3([
   new THREE.Vector3( 0,   2.5, 11  ),  // Hero
   new THREE.Vector3( 4.5, 2,   8.5),  // About

@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
+import { Parallax } from "@/components/parallax";
 
 const easeExpo = [0.16, 1, 0.3, 1] as const;
 
@@ -24,66 +25,87 @@ function FadeIn({ children, delay = 0, className = "" }: { children: React.React
 const PROJECTS = [
   {
     index: "01",
-    title: "Enterprise Dashboard",
-    subtitle: "Analytics & Business Intelligence Platform",
+    title: "School Management System",
+    subtitle: "Multi-tenant SIS + LMS for schools",
     description:
-      "A full-scale analytics dashboard delivering real-time business metrics to 500+ active users. Built with a Next.js frontend consuming a FastAPI backend, with PostgreSQL for structured reporting data and Redis for session caching.",
+      "A cloud platform that runs a school's entire operation, from one place: admissions, academics and grading, attendance, fees and accounting, timetabling, communication, and reporting. Each school is an isolated tenant with campus-level scoping on every record, plus role-based portals for admins, teachers, students, parents, librarians, finance supervisors, and external inspectors.",
     impact: [
-      "Reduced report generation time by 72% via query optimization",
-      "Real-time data streaming with WebSocket connections",
-      "Role-based access control for 5 user permission levels",
+      "Multi-tenant, campus-scoped data model with authorization enforced at the database via Postgres Row-Level Security, not just application code",
+      "Server-side PDF pipelines with Puppeteer for report cards, certificates, ID cards, and receipts, driven by visual template designers",
+      "100+ REST resource groups spanning academics, finance, HR, scheduling, library, hostel, and external inspections",
     ],
-    stack: ["Next.js", "FastAPI", "PostgreSQL", "Redis", "TypeScript", "Tailwind CSS"],
-    type: "Full-Stack",
-    year: "2024",
+    stack: ["Next.js 16", "React 19", "TypeScript", "Node.js", "Express", "Supabase", "PostgreSQL RLS", "Zustand", "SWR", "Puppeteer"],
+    type: "Multi-tenant SaaS",
+    year: "2025",
+    link: "",
     accent: "#FF4500",
   },
   {
     index: "02",
-    title: "Booking Platform",
-    subtitle: "Multi-tenant Scheduling & Reservation System",
+    title: "iRepairly POS",
+    subtitle: "Multi-tenant POS & repair-shop operations",
     description:
-      "A multi-tenant SaaS booking system with dynamic availability calendars, automated email notifications, and Stripe payment integration. Handles concurrent booking conflicts with optimistic locking patterns.",
+      "A subscription-billed platform that runs repair businesses and retail shops from a single multi-tenant codebase: point of sale, inventory, repair-ticket workflows, CRM, staff management, and billing. Each business gets a subdomain-scoped workspace; a superadmin console onboards tenants and applies industry-specific vertical templates that preconfigure catalogues, statuses, and pricing.",
     impact: [
-      "Processes 2,000+ bookings per day across 50+ tenants",
-      "Automated conflict resolution with zero double-bookings",
-      "Payment success rate of 98.4% via Stripe integration",
+      "Money-handling flows (split tender, partial refunds, trade-ins, deposits) kept correct across every payment path via Postgres RPC functions",
+      "Configuration-driven module system lets each plan or tenant enable or hide entire feature areas without code branches",
+      "~215 versioned SQL migrations, with tenant isolation enforced at the database via RLS",
     ],
-    stack: ["React", "Node.js", "MongoDB", "Express", "Stripe", "SendGrid"],
-    type: "Full-Stack",
-    year: "2024",
+    stack: ["Next.js 16", "React 19", "TypeScript", "Supabase", "Stripe", "Redis", "TanStack Query", "Zod", "Tailwind CSS v4", "@react-pdf/renderer"],
+    type: "Multi-tenant SaaS",
+    year: "2025",
+    link: "https://repairbooking.co.uk/",
     accent: "#FF4500",
   },
   {
     index: "03",
-    title: "REST API Service",
-    subtitle: "High-Performance Microservices Backend",
+    title: "Freight Operations Platform",
+    subtitle: "Multi-tenant freight & delivery management",
     description:
-      "A production-grade RESTful API suite powering a mobile-first product. Designed with clean architecture principles, comprehensive OpenAPI documentation, JWT authentication, and automated test coverage above 85%.",
+      "A cloud platform running the full operations of a freight/delivery business from one multi-tenant codebase: booking, dispatch, live shipment tracking, quotations, invoicing, and customer management. Isolated workspaces per shipping company, an internal admin console over every tenant, and separate corporate and residential customer portals with a sales pipeline and loyalty points.",
     impact: [
-      "Sub-80ms average response time across all endpoints",
-      "85%+ test coverage with Jest and Supertest",
-      "OpenAPI docs auto-generated and versioned",
+      "Permission-first architecture: every module gated by dynamic RBAC encoded into the JWT, so new features inherit access control",
+      "Shipment history built as an append-only event log enforced by database triggers, a tamper-proof delivery audit record",
+      "Portal access modeled as a computed consequence of the corporate sales-pipeline stage, removing a manual approve/reject workflow",
     ],
-    stack: ["Node.js", "Express", "MongoDB", "Jest", "Docker", "JWT"],
-    type: "Backend",
-    year: "2023",
+    stack: ["Next.js 16", "React 19", "TypeScript", "Express 5", "Supabase", "Stripe", "Redis + BullMQ", "WebSocket", "Mapbox GL", "Typesense"],
+    type: "Multi-tenant SaaS",
+    year: "2025",
+    link: "https://logical-links.vercel.app/",
     accent: "#FF4500",
   },
   {
     index: "04",
-    title: "AI Chatbot Integration",
-    subtitle: "Conversational Interface for Customer Support",
+    title: "Zikron",
+    subtitle: "Personal knowledge management app",
     description:
-      "An intelligent customer support chatbot that integrates with an LLM API, maintaining conversation context across sessions and escalating complex queries to human agents with full conversation history.",
+      "A cloud personal-knowledge platform that replaces the scattered habit of saving things in WhatsApp self-chat, Drive, screenshots, and bookmarks with one place to capture, organize, link, search, remember, and share. Quick capture drops text and links into an inbox; items become notes, list entries, self-chat messages, calendar events, or contacts, each taggable, linkable, versioned, schedulable, and shareable through tracked links.",
     impact: [
-      "Deflects 60% of Tier-1 support tickets automatically",
-      "Context-aware multi-turn conversation support",
-      "Seamless handoff to human agents with full history",
+      "A linking layer and universal tag system every module inherits, so “connect anything to anything” works the same across notes, contacts, lists, and events",
+      "Tenant isolation enforced at the database with RLS and independently re-verified in the Express API middleware",
+      "Capture-to-organize built as a pipeline (quick capture, inbox triage, typed object, tagged/linked/collected/shared), with automatic version history and restore",
     ],
-    stack: ["Python", "FastAPI", "OpenAI API", "PostgreSQL", "React", "WebSocket"],
-    type: "Full-Stack",
+    stack: ["Next.js 16", "React 19", "TypeScript", "Express 4", "Supabase", "TanStack Query", "FullCalendar", "React Flow", "web-push", "Resend"],
+    type: "B2C SaaS",
+    year: "2025",
+    link: "https://zikron.hasanmunir.dev/",
+    accent: "#FF4500",
+  },
+  {
+    index: "05",
+    title: "Attrition Console",
+    subtitle: "Employee attrition risk, ML scoring & operator console",
+    description:
+      "A decision-support tool for HR that predicts which employees are at risk of leaving and, more importantly, why. An analyst fills in one employee's details or uploads a headcount CSV; the service returns a calibrated leaving probability, a keep/flag decision against a cost-tuned threshold, and a per-employee breakdown of which factors raised or lowered risk, plus what-if intervention scenarios. Deliberately scoped as a talk-to list, not a manage-out list.",
+    impact: [
+      "Train/serve skew made a failing test, a 4-decimal parity assertion between the training notebook and the service, which caught three silent-degradation bugs",
+      "Every business decision (threshold, cost ratio, fitted medians, library versions) pushed into a persisted metadata.json, so the model re-tunes and redeploys without a code change",
+      "Decision threshold tuned from an explicit 10·FN + 1·FP cost function, turning a timid 0.38-recall classifier into an 0.85-recall talk-to list",
+    ],
+    stack: ["Python", "scikit-learn", "FastAPI", "Pydantic v2", "pandas", "SHAP", "Next.js 14", "React 18", "TypeScript", "Recharts"],
+    type: "ML Application",
     year: "2024",
+    link: "https://attrisense.hasanmunir.dev/",
     accent: "#FF4500",
   },
 ];
@@ -100,18 +122,18 @@ export function ProjectsSection() {
         <div className="flex items-center gap-4 mb-16">
           <span className="text-label text-fire">01</span>
           <div className="h-px flex-1 bg-stroke" />
-          <span className="text-label text-ink-3">SELECTED WORK</span>
+          <span className="text-label text-ink-3">PORTFOLIO</span>
         </div>
 
         {/* Headline */}
-        <div className="mb-16">
+        <Parallax speed={46} className="mb-16">
           <FadeIn>
-            <h2 className="text-section text-ink leading-none">CASE</h2>
+            <h2 className="text-section text-ink leading-none">SELECTED</h2>
           </FadeIn>
           <FadeIn delay={0.08}>
-            <h2 className="text-section text-outlined leading-none">STUDIES</h2>
+            <h2 className="text-section text-outlined leading-none">PROJECTS</h2>
           </FadeIn>
-        </div>
+        </Parallax>
 
         {/* Project list */}
         <div>
@@ -158,7 +180,7 @@ function ProjectRow({
       onMouseLeave={onLeave}
       className="border-b border-stroke"
     >
-      {/* Row header — always visible */}
+      {/* Row header - always visible */}
       <button
         type="button"
         onClick={() => setExpanded(!expanded)}
@@ -223,6 +245,18 @@ function ProjectRow({
                 </span>
               ))}
             </div>
+            {project.link && (
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-hover
+                className="inline-flex items-center gap-2 mt-6 text-label text-fire hover:opacity-70 transition-opacity"
+              >
+                VISIT LIVE
+                <span aria-hidden>↗</span>
+              </a>
+            )}
           </div>
 
           {/* Impact */}
