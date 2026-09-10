@@ -4,6 +4,14 @@ import Script from "next/script";
 import { Bebas_Neue, DM_Sans } from "next/font/google";
 import localFont from "next/font/local";
 import { Toaster } from "@/components/ui/toaster";
+import { Backdrop } from "@/components/backdrop";
+import { CustomCursor } from "@/components/cursor";
+import { ScrollProgress } from "@/components/scroll-progress";
+import { NavProgress } from "@/components/nav-progress";
+import { Navigation } from "@/components/navigation";
+import { Footer } from "@/components/footer";
+import { PERSON_ID, SITE_URL, SOCIAL_PROFILES } from "@/lib/site";
+import { PERSON_DESCRIPTION, KNOWS_ABOUT } from "@/lib/data/about";
 
 const bebasNeue = Bebas_Neue({
   weight: "400",
@@ -62,7 +70,7 @@ export const metadata: Metadata = {
   },
   formatDetection: { email: false, address: false, telephone: false },
   description:
-    "Muhammad Hasan Munir is a Full-Stack Software Engineer from Pakistan specializing in Next.js, React, FastAPI, Node.js, Supabase, and scalable web applications.",
+    "Hasan Munir, a Full-Stack Software Engineer from Pakistan specializing in Next.js, React, FastAPI, Node.js, Supabase, and scalable web applications.",
   keywords: [
     "Muhammad Hasan Munir",
     "Muhammad H Hasan Munir",
@@ -192,7 +200,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Hasan Munir - Full-Stack Engineer",
     description:
-      "Muhammad Hasan Munir is a Full-Stack Software Engineer from Pakistan specializing in Next.js, React, FastAPI, Node.js, Supabase, and scalable web applications.",
+      "Hasan Munir, a Full-Stack Software Engineer from Pakistan specializing in Next.js, React, FastAPI, Node.js, Supabase, and scalable web applications.",
     url: "https://hasanmunir.dev",
     siteName: "Hasan Munir",
     images: [
@@ -209,7 +217,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Hasan Munir - Full-Stack Engineer",
-    description: "Muhammad Hasan Munir is a Full-Stack Software Engineer from Pakistan specializing in Next.js, React, FastAPI, Node.js, Supabase, and scalable web applications.",
+    description: "Hasan Munir, a Full-Stack Software Engineer from Pakistan specializing in Next.js, React, FastAPI, Node.js, Supabase, and scalable web applications.",
     images: ["/og/og.jpg"],
   },
   authors: [{ name: "Muhammad Hasan Munir" }],
@@ -233,21 +241,34 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "Person",
-              name: "Muhammad Hasan Munir",
-              url: "https://hasanmunir.dev/",
-              sameAs: [
-                "https://github.com/hasanmunir-dev/",
-                "https://www.linkedin.com/in/hasanmunir-dev/",
-              ],
-              jobTitle: "Full-Stack Software Engineer",
-              knowsAbout: [
-                "MERN Stack",
-                "Next.js",
-                "FastAPI",
-                "Node.js",
-                "MongoDB",
-                "System Design",
+              "@graph": [
+                {
+                  "@type": "Person",
+                  "@id": PERSON_ID,
+                  name: "Muhammad Hasan Munir",
+                  alternateName: "Hasan Munir",
+                  url: `${SITE_URL}/`,
+                  mainEntityOfPage: `${SITE_URL}/about`,
+                  sameAs: SOCIAL_PROFILES,
+                  jobTitle: "Full-Stack Software Engineer",
+                  description: PERSON_DESCRIPTION,
+                  address: {
+                    "@type": "PostalAddress",
+                    addressLocality: "Lahore",
+                    addressCountry: "PK",
+                  },
+                  worksFor: { "@type": "Organization", name: "TSN" },
+                  knowsAbout: KNOWS_ABOUT,
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": `${SITE_URL}/#website`,
+                  url: `${SITE_URL}/`,
+                  name: "Hasan Munir",
+                  description: PERSON_DESCRIPTION,
+                  publisher: { "@id": PERSON_ID },
+                  inLanguage: "en",
+                },
               ],
             }),
           }}
@@ -276,7 +297,13 @@ export default function RootLayout({
         </Script>
       </head>
       <body className="font-body bg-bg text-ink">
+        <Backdrop />
+        <CustomCursor />
+        <NavProgress />
+        <ScrollProgress />
+        <Navigation />
         {children}
+        <Footer />
         <Toaster />
       </body>
     </html>

@@ -41,7 +41,7 @@ const config: Config = {
           foreground: 'hsl(var(--muted-foreground))',
         },
         accent: {
-          DEFAULT: 'hsl(var(--accent))',
+          DEFAULT: 'hsl(var(--accent-ui))',
           foreground: 'hsl(var(--accent-foreground))',
         },
         destructive: {

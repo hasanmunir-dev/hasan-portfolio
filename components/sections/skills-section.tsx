@@ -1,49 +1,15 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { Parallax } from "@/components/parallax";
+import { FadeIn } from "@/components/reveal";
+import { SKILLS, CATS, type Cat, type Skill } from "@/lib/data/skills";
 
 const easeExpo = [0.16, 1, 0.3, 1] as const;
 
-function FadeIn({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, ease: easeExpo, delay }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-const SKILLS = [
-  { name: "React",        level: 95, cat: "Frontend"  },
-  { name: "Next.js",      level: 90, cat: "Frontend"  },
-  { name: "TypeScript",   level: 90, cat: "Frontend"  },
-  { name: "Tailwind CSS", level: 85, cat: "Frontend"  },
-  { name: "Node.js",      level: 92, cat: "Backend"   },
-  { name: "Express",      level: 90, cat: "Backend"   },
-  { name: "FastAPI",      level: 85, cat: "Backend"   },
-  { name: "Python",       level: 85, cat: "Backend"   },
-  { name: "REST APIs",    level: 88, cat: "Backend"   },
-  { name: "MongoDB",      level: 88, cat: "Database"  },
-  { name: "PostgreSQL",   level: 83, cat: "Database"  },
-  { name: "VPS Deployment",          level: 82, cat: "DevOps" },
-  { name: "Environment Configuration", level: 85, cat: "DevOps" },
-  { name: "Nginx",                    level: 75, cat: "DevOps" },
-  { name: "CI/CD Pipelines",          level: 72, cat: "DevOps" },
-];
-
-const CATS = ["All", "Frontend", "Backend", "Database", "DevOps"] as const;
-type Cat = typeof CATS[number];
-
-function SkillRow({ skill, index }: { skill: typeof SKILLS[0]; index: number }) {
+function SkillRow({ skill, index }: { skill: Skill; index: number }) {
   const [hovered, setHovered] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-5% 0px" });
@@ -100,7 +66,7 @@ function SkillRow({ skill, index }: { skill: typeof SKILLS[0]; index: number }) 
   );
 }
 
-export function SkillsSection() {
+export function SkillsSection({ standalone = false }: { standalone?: boolean } = {}) {
   const [active, setActive] = useState<Cat>("All");
 
   const filtered = active === "All"
@@ -108,7 +74,10 @@ export function SkillsSection() {
     : SKILLS.filter((s) => s.cat === active);
 
   return (
-    <section id="skills" className="section section-bg relative">
+    <section
+      id="skills"
+      className={`section section-bg relative${standalone ? " section-flush" : ""}`}
+    >
       <div className="grid-overlay opacity-50" />
       <div className="section-inner">
 
@@ -171,6 +140,19 @@ export function SkillsSection() {
             </div>
           ))}
         </FadeIn>
+
+        {!standalone && (
+          <FadeIn delay={0.25} className="mt-12">
+            <Link
+              href="/skills"
+              data-hover
+              className="inline-flex items-center gap-2 text-label text-fire hover:opacity-70 transition-opacity"
+            >
+              FULL SKILL BREAKDOWN
+              <span aria-hidden>→</span>
+            </Link>
+          </FadeIn>
+        )}
       </div>
     </section>
   );

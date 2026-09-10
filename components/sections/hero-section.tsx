@@ -201,7 +201,7 @@ export function HeroSection() {
               {SPECS.map(({ k, v, accent }) => (
                 <div key={k} className="flex items-baseline justify-between gap-6">
                   <dt className="text-label text-ink-3">{k}</dt>
-                  <dd className={`text-label ${accent ? "text-fire" : "text-ink-2"}`}>{v}</dd>
+                  <dd className={`text-label ${accent ? "text-[color:rgba(74,222,128,0.9)]" : "text-ink-2"}`}>{v}</dd>
                 </div>
               ))}
             </motion.dl>

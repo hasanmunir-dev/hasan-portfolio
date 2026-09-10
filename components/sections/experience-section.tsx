@@ -1,55 +1,20 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
+import { EXPERIENCES, type Experience } from "@/lib/data/experience";
 
 const easeExpo = [0.16, 1, 0.3, 1] as const;
 
-const EXPERIENCES = [
-  {
-    index: "01",
-    company: "TSN",
-    role: "Full-Stack Software Engineer",
-    period: "1+ Years",
-    type: "Full-time",
-    url: "https://thesocialnexus.co",
-    highlights: [
-      "Lead full-stack developer on three multi-tenant B2B SaaS platforms (a school management system, a freight & delivery operations platform, and a repair-shop POS), all on a shared Next.js / React / TypeScript + Express + Supabase stack",
-      "Designed multi-tenant, campus- and branch-scoped data models with authorization enforced at the database through PostgreSQL Row-Level Security instead of application code",
-      "Built server-side PDF pipelines with Puppeteer for report cards, certificates, ID cards, and fee receipts, driven by visual template designers",
-      "Implemented an append-only, trigger-enforced shipment event log so the delivery timeline is a tamper-proof audit record, with live tracking on a Mapbox GL map",
-      "Modeled money-handling flows (split tender, partial refunds, trade-ins, deposits) as PostgreSQL RPC functions so cash-drawer and P&L stay correct across every payment path",
-      "Integrated Stripe billing (tiered plans, per-tenant module entitlements, webhooks) and dynamic RBAC encoded into the JWT so every route and control renders against the current permission set",
-      "Covered 100+ REST resource groups across academics, finance, HR, scheduling, inventory, and inspections, backed by ~215 versioned SQL migrations on the POS alone",
-    ],
-    stack: ["Next.js", "React", "Python", "TypeScript", "Express", "FastAPI", "Supabase", "MongoDB", "PostgreSQL RLS", "Stripe"],
-  },
-  {
-    index: "02",
-    company: "SeeBiz",
-    role: "Full-Stack Developer",
-    period: "1 Year",
-    type: "Apprenticeship",
-    url: "https://see.biz",
-    highlights: [
-      "One-year full-stack software engineering apprenticeship inside a live production MERN codebase",
-      "Built and shipped core React UI components used across the main product interface",
-      "Translated Figma mockups into responsive, cross-browser layouts",
-      "Worked in agile sprints with daily standups, shipping multiple features per week",
-      "Grew from fundamentals to end-to-end feature ownership across the Node.js / Express / MongoDB / React stack",
-    ],
-    stack: ["React", "Node.js", "Express", "MongoDB", "Tailwind CSS"],
-  },
-];
-
-function ExperienceDetail({ exp }: { exp: (typeof EXPERIENCES)[number] }) {
+function ExperienceDetail({ exp }: { exp: Experience }) {
   return (
     <article>
       <div className="mb-8 pb-8 border-b border-stroke">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <p className="text-label text-ink-3 mb-2">{exp.type.toUpperCase()}</p>
-            <h3 className="font-display text-4xl md:text-5xl text-fire tracking-wide mb-1">
+            <h3 className="font-display text-4xl md:text-5xl text-ink tracking-wide mb-1">
               {exp.role.toUpperCase()}
             </h3>
             <p className="text-label text-ink-2">
@@ -88,7 +53,7 @@ function ExperienceDetail({ exp }: { exp: (typeof EXPERIENCES)[number] }) {
   );
 }
 
-export function ExperienceSection() {
+export function ExperienceSection({ standalone = false }: { standalone?: boolean } = {}) {
   const reduce = useReducedMotion();
   const [active, setActive] = useState(0);
 
@@ -96,7 +61,10 @@ export function ExperienceSection() {
   const selectRole = (i: number) => setActive(i);
 
   return (
-    <section id="experience" className="section section-bg relative scroll-mt-24">
+    <section
+      id="experience"
+      className={`section section-bg relative scroll-mt-24${standalone ? " section-flush" : ""}`}
+    >
       <div className="section-inner">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
@@ -157,6 +125,16 @@ export function ExperienceSection() {
             transition={{ duration: 0.4, ease: easeExpo }}
           >
             <ExperienceDetail exp={EXPERIENCES[active]} />
+            {!standalone && (
+              <Link
+                href="/experience"
+                data-hover
+                className="inline-flex items-center gap-2 mt-10 text-label text-fire hover:opacity-70 transition-opacity"
+              >
+                FULL WORK HISTORY
+                <span aria-hidden>→</span>
+              </Link>
+            )}
           </motion.div>
         </div>
       </div>

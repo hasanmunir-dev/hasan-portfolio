@@ -1,85 +1,10 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import Link from "next/link";
 import { Parallax } from "@/components/parallax";
-
-const easeExpo = [0.16, 1, 0.3, 1] as const;
-
-function RevealText({
-  children,
-  delay = 0,
-  className = "",
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  className?: string;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
-
-  return (
-    <div ref={ref} className="overflow-hidden">
-      <motion.div
-        initial={{ y: "105%" }}
-        animate={inView ? { y: 0 } : {}}
-        transition={{ duration: 0.9, ease: easeExpo, delay }}
-        className={className}
-      >
-        {children}
-      </motion.div>
-    </div>
-  );
-}
-
-function FadeIn({
-  children,
-  delay = 0,
-  className = "",
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  className?: string;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, ease: easeExpo, delay }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-const MARQUEE_ITEMS = [
-  "Next.js", "React", "TypeScript", "Node.js", "Express",
-  "FastAPI", "Python", "MongoDB", "PostgreSQL", "REST APIs",
-  "System Design", "Tailwind CSS", "Docker", "AWS", "Redis",
-];
-
-const PHILOSOPHY = [
-  {
-    num: "01",
-    title: "Ship with intention",
-    body: "Every feature shipped should solve a real problem. I resist the urge to over-engineer and favor pragmatic solutions that can be iterated on.",
-  },
-  {
-    num: "02",
-    title: "Systems over hacks",
-    body: "Quick fixes accumulate debt. I build systems that scale - proper abstractions, clean architecture, and code that the next engineer can own.",
-  },
-  {
-    num: "03",
-    title: "Data-driven decisions",
-    body: "Opinions are cheap without evidence. I measure, monitor, and let real user behavior guide technical and product decisions.",
-  },
-];
+import { FadeIn, RevealText } from "@/components/reveal";
+import { MARQUEE_ITEMS, PHILOSOPHY } from "@/lib/data/about";
 
 export function AboutSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -122,7 +47,7 @@ export function AboutSection() {
             <FadeIn delay={0.15}>
               <div className="border-l-2 border-fire pl-6">
                 <p className="text-sm text-ink-2 leading-relaxed">
-                  Based in Pakistan. Over a year at TSN as lead developer on
+                  Based in Lahore, Pakistan. Over a year at TSN as lead developer on
                   three multi-tenant B2B platforms, a school management system,
                   a freight &amp; delivery platform, and a repair-shop POS, all on
                   Next.js, Express, and Supabase with PostgreSQL Row-Level Security.
@@ -143,6 +68,16 @@ export function AboutSection() {
                   </span>
                 ))}
               </div>
+            </FadeIn>
+            <FadeIn delay={0.25}>
+              <Link
+                href="/about"
+                data-hover
+                className="inline-flex items-center gap-2 text-label text-fire hover:opacity-70 transition-opacity"
+              >
+                MORE ABOUT HASAN
+                <span aria-hidden>→</span>
+              </Link>
             </FadeIn>
           </div>
         </div>
@@ -166,7 +101,7 @@ export function AboutSection() {
           <FadeIn>
             <p className="text-label text-ink-3 mb-10">ENGINEERING PHILOSOPHY</p>
           </FadeIn>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {PHILOSOPHY.map((item, i) => (
               <FadeIn key={item.num} delay={i * 0.1}>
                 <div className="group">

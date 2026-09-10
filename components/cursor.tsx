@@ -10,8 +10,8 @@ export function CustomCursor() {
   const [hidden, setHidden] = useState(false);
   const ringRef = useRef<HTMLDivElement>(null);
 
-  const springConfig = { damping: 28, stiffness: 700, mass: 0.5 };
-  const ringConfig  = { damping: 30, stiffness: 180, mass: 0.8 };
+  const springConfig = { damping: 30, stiffness: 900, mass: 0.4 };
+  const ringConfig  = { damping: 32, stiffness: 450, mass: 0.4 };
 
   const dotXS  = useSpring(dotX, springConfig);
   const dotYS  = useSpring(dotY, springConfig);
