@@ -83,7 +83,7 @@ export function ContactSection() {
         {/* Big CTA headline */}
         <div className="mb-16">
           <FadeIn>
-            <h2 className="text-section text-ink leading-none">LET'S</h2>
+            <h2 className="text-section text-ink leading-none">LET&apos;S</h2>
           </FadeIn>
           <FadeIn delay={0.08}>
             <h2 className="text-section text-outlined leading-none">BUILD</h2>

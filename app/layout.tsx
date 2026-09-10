@@ -1,7 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Bebas_Neue, DM_Sans, Space_Mono } from "next/font/google";
+import { Bebas_Neue, DM_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import { Toaster } from "@/components/ui/toaster";
 
 const bebasNeue = Bebas_Neue({
@@ -9,28 +10,57 @@ const bebasNeue = Bebas_Neue({
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
+  fallback: ["Arial Narrow", "Impact", "sans-serif"],
 });
 
 const dmSans = DM_Sans({
-  weight: ["300", "400", "500"],
+  weight: ["300", "400", "500", "700", "800"],
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",
+  fallback: ["system-ui", "-apple-system", "Segoe UI", "Roboto", "sans-serif"],
 });
 
-const spaceMono = Space_Mono({
-  weight: ["400", "700"],
-  subsets: ["latin"],
+const spaceMono = localFont({
+  src: [
+    { path: "../assets/fonts/Space_Mono/SpaceMono-Regular.ttf", weight: "400", style: "normal" },
+    { path: "../assets/fonts/Space_Mono/SpaceMono-Italic.ttf", weight: "400", style: "italic" },
+    { path: "../assets/fonts/Space_Mono/SpaceMono-Bold.ttf", weight: "700", style: "normal" },
+    { path: "../assets/fonts/Space_Mono/SpaceMono-BoldItalic.ttf", weight: "700", style: "italic" },
+  ],
   variable: "--font-mono",
   display: "swap",
+  fallback: ["ui-monospace", "SFMono-Regular", "Menlo", "Consolas", "monospace"],
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://hasanmunir.dev"),
+  applicationName: "Hasan Munir",
+  themeColor: "#030303",
+  colorScheme: "dark",
   title: {
     default: "Hasan Munir - Full-Stack Engineer",
     template: "%s - Hasan Munir",
   },
+  alternates: { canonical: "/" },
+  manifest: "/manifest.webmanifest",
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  formatDetection: { email: false, address: false, telephone: false },
   description:
     "Muhammad Hasan Munir is a Full-Stack Software Engineer from Pakistan specializing in Next.js, React, FastAPI, Node.js, Supabase, and scalable web applications.",
   keywords: [

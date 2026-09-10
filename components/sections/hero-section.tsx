@@ -6,7 +6,9 @@ import { motion, useScroll, useTransform } from "framer-motion";
 const SCRAMBLE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%";
 
 function useTextScramble(text: string, started: boolean, delay = 0) {
-  const [display, setDisplay] = useState(text.replace(/[^\s]/g, "_"));
+  // Initialise with the real text so it is present in the server-rendered HTML
+  // (SEO / no-JS); the decode animation runs on the client after mount.
+  const [display, setDisplay] = useState(text);
   const frame = useRef(0);
 
   useEffect(() => {

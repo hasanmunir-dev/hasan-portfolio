@@ -127,7 +127,7 @@ export function AboutSection() {
                   a freight &amp; delivery platform, and a repair-shop POS, all on
                   Next.js, Express, and Supabase with PostgreSQL Row-Level Security.
                   Before that, a year-long apprenticeship at SeeBiz in a production
-                  MERN codebase. Solo, I've shipped Zikron, a personal-knowledge
+                  MERN codebase. Solo, I&apos;ve shipped Zikron, a personal-knowledge
                   app, and Attrisense, an ML attrition-risk tool.
                 </p>
               </div>

@@ -16,10 +16,6 @@
   --accent-dim: rgba(255, 69, 0, 0.10);
   --accent-glow: rgba(255, 69, 0, 0.25);
 
-  --font-display: 'Bebas Neue', sans-serif;
-  --font-body:    'DM Sans', sans-serif;
-  --font-mono:    'Space Mono', monospace;
-
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-expo:  cubic-bezier(0.7, 0, 0.84, 0);
   --ease-inout:    cubic-bezier(0.87, 0, 0.13, 1);
@@ -45,6 +41,14 @@
   --input: 0 0% 12.2%;
   --ring: 30 8% 91%;
   --radius: 0.25rem;
+}
+
+/* Font-family fallbacks only. next/font sets --font-* on <html> via a class,
+   which (specificity 0,1,0) always beats this zero-specificity :where() rule. */
+:where(html) {
+  --font-display: 'Bebas Neue', 'Arial Narrow', Impact, sans-serif;
+  --font-body:    'DM Sans', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  --font-mono:    'Space Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
 /* ─── RESET ─────────────────────────────────────────── */
@@ -83,28 +87,29 @@ body {
   font-family: var(--font-display);
   font-size: clamp(100px, 17vw, 220px);
   line-height: 0.88;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.01em;
 }
 
-/* Hero name - sized so the longer line ("HASAN MUNIR") always fits one row */
+/* Hero name - Bebas, with each glyph stretched wider (scaleX) so the condensed
+   letterforms fill more width. Spacing between letters is left untouched. */
 .text-name {
   font-family: var(--font-display);
-  font-size: clamp(46px, 15.5vw, 172px);
+  font-size: clamp(72px, 17vw, 176px);
   line-height: 0.9;
-  letter-spacing: -0.01em;
-}
-
-/* MUHAMMAD row: spread its letters edge-to-edge to match the row below */
-.text-name.is-spread {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
+  letter-spacing: 0;
+  display: inline-block;
+  transform: scaleX(1.7);
+  transform-origin: left;
+  /* scaleX doesn't grow the layout box; this reserves ~the overflow width so
+     the block still measures close to the stretched glyphs. */
+  margin-right: 1.55em;
 }
 
 .text-section {
   font-family: var(--font-display);
-  font-size: clamp(64px, 10vw, 140px);
+  font-size: clamp(80px, 13vw, 184px);
   line-height: 0.9;
+  letter-spacing: 0.01em;
 }
 
 .text-label {
@@ -556,8 +561,8 @@ footer {
 /* ─── SKILL ROW ──────────────────────────────────────── */
 .skill-name {
   font-family: var(--font-display);
-  font-size: clamp(28px, 4vw, 56px);
-  letter-spacing: 0.02em;
+  font-size: clamp(32px, 4.6vw, 64px);
+  letter-spacing: 0.03em;
   line-height: 1;
   transition: color 0.3s ease;
 }
@@ -565,7 +570,7 @@ footer {
 /* ─── EXPERIENCE ─────────────────────────────────────── */
 .company-name {
   font-family: var(--font-display);
-  font-size: clamp(20px, 2.5vw, 28px);
+  font-size: clamp(22px, 2.8vw, 32px);
   letter-spacing: 0.05em;
   transition: color 0.3s ease;
 }
@@ -573,8 +578,8 @@ footer {
 /* ─── PROJECT ROW ────────────────────────────────────── */
 .project-title {
   font-family: var(--font-display);
-  font-size: clamp(24px, 3.5vw, 48px);
-  letter-spacing: 0.02em;
+  font-size: clamp(28px, 4vw, 56px);
+  letter-spacing: 0.03em;
   line-height: 1;
   transition: color 0.3s ease;
 }
@@ -585,7 +590,7 @@ footer {
     font-size: clamp(72px, 20vw, 120px);
   }
   .text-section {
-    font-size: clamp(48px, 15vw, 80px);
+    font-size: clamp(56px, 17vw, 96px);
   }
 }
 
@@ -686,8 +691,8 @@ footer {
 /* ─── CERT SECTION ────────────────────────────────────── */
 .cert-title {
   font-family: var(--font-display);
-  font-size: clamp(28px, 3.5vw, 52px);
-  letter-spacing: 0.02em;
+  font-size: clamp(30px, 4vw, 58px);
+  letter-spacing: 0.03em;
   line-height: 1;
   transition: color 0.3s ease;
 }
