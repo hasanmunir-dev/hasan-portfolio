@@ -5,7 +5,6 @@ import { motion, useInView } from "framer-motion";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
-import { api } from "@/lib/axios";
 import { contactFormSchema, ContactFormValues } from "@/schema/contact-form.schema";
 
 const easeExpo = [0.16, 1, 0.3, 1] as const;
@@ -46,15 +45,25 @@ export function ContactSection() {
   async function onSubmit(values: ContactFormValues) {
     if (isSubmitting) return;
     try {
-      await api.post("/api/contact", { ...values, company: honeypotRef.current?.value ?? "" });
-      toast({ variant: "success", title: "Sent.", description: "I'll get back to you shortly." });
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...values, company: honeypotRef.current?.value ?? "" }),
+      });
+      const data = (await res.json().catch(() => null)) as { message?: string } | null;
+      if (!res.ok) throw new Error(data?.message ?? "Request failed");
+
+      toast({
+        variant: "success",
+        title: "Sent.",
+        description: data?.message ?? "I'll get back to you shortly.",
+      });
       form.reset();
     } catch (error: unknown) {
-      const msg = (error as { response?: { data?: { message?: string } } })?.response?.data?.message;
       toast({
         variant: "destructive",
         title: "Failed to send",
-        description: msg ?? "Please try again or email directly.",
+        description: error instanceof Error ? error.message : "Please try again or email directly.",
       });
     }
   }
@@ -121,7 +130,7 @@ export function ContactSection() {
           {/* Right: form */}
           <FadeIn delay={0.1}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6" noValidate>
-              {/* honeypot — hidden from real users */}
+              {/* honeypot - hidden from real users */}
               <input
                 ref={honeypotRef}
                 type="text"

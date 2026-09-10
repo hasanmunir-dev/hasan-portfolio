@@ -38,20 +38,51 @@ function useTextScramble(text: string, started: boolean, delay = 0) {
 
 const easeExpo = [0.16, 1, 0.3, 1] as const;
 
+const STATS = [
+  // { k: "2+ YRS", v: "YEARS BUILDING" },
+  // { k: "BUILD → SHIP", v: "END-TO-END" },
+  { k: "FULL-STACK", v: "ENGINEERING" },
+  { k: "5", v: "PLATFORMS SHIPPED" },
+  // { k: "END-TO-END", v: "PRODUCT ENGINEERING" },
+  { k: "END-TO-END", v: "PRODUCT DELIVERY" },
+];
+
+const SPECS: { k: string; v: string; accent?: boolean }[] = [
+  { k: "ROLE", v: "Full-Stack Engineer" },
+  { k: "FOCUS", v: "Multi-tenant SaaS" },
+  { k: "STACK", v: "Polyglot · Full-Stack" },
+  { k: "BASED", v: "Pakistan · UTC+5" },
+  { k: "STATUS", v: "Open to work", accent: true },
+];
+
 export function HeroSection() {
   const [started, setStarted] = useState(false);
+  const [clock, setClock] = useState("");
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const yName   = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
   const yRole   = useTransform(scrollYProgress, [0, 1], ["0%", "35%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
-  const hasanDisplay = useTextScramble("HASAN", started, 400);
-  const munirDisplay = useTextScramble("MUNIR", started, 700);
+  const line1 = useTextScramble("HASAN", started, 350);
+  const line2 = useTextScramble("MUNIR", started, 600);
 
   useEffect(() => {
     const t = setTimeout(() => setStarted(true), 200);
     return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    const fmt = () =>
+      new Date().toLocaleTimeString("en-GB", {
+        timeZone: "Asia/Karachi",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
+    setClock(fmt());
+    const id = setInterval(() => setClock(fmt()), 1000);
+    return () => clearInterval(id);
   }, []);
 
   const scrollTo = (href: string) => {
@@ -66,6 +97,20 @@ export function HeroSection() {
       className="hero-bg relative min-h-screen flex flex-col overflow-hidden"
     >
       <div className="grid-overlay" />
+
+      {/* Corner frame marks */}
+      {[
+        "top-6 left-6 md:top-8 md:left-8 border-t border-l",
+        "top-6 right-6 md:top-8 md:right-8 border-t border-r",
+        "bottom-6 left-6 md:bottom-8 md:left-8 border-b border-l",
+        "bottom-6 right-6 md:bottom-8 md:right-8 border-b border-r",
+      ].map((c) => (
+        <span
+          key={c}
+          className={`pointer-events-none absolute z-10 w-4 h-4 ${c}`}
+          style={{ borderColor: "var(--text-3)" }}
+        />
+      ))}
 
       {/* Scan line reveal */}
       <motion.div
@@ -87,44 +132,77 @@ export function HeroSection() {
         <span className="text-label text-ink-3">/ ARRIVAL</span>
       </motion.div>
 
-      {/* Available badge */}
+      {/* Available badge + live clock */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.6 }}
-        className="absolute top-20 right-6 md:right-10 hidden md:flex items-center gap-2 z-10"
+        className="absolute top-20 right-6 md:right-10 hidden md:flex flex-col items-end gap-1.5 z-10"
       >
-        <span className="w-1.5 h-1.5 rounded-full bg-green-400 available-dot" />
-        <span className="text-label text-ink-2">OPEN TO WORK</span>
+        <div className="flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-green-400 available-dot" />
+          <span className="text-label text-ink-2">OPEN TO WORK</span>
+        </div>
+        <span className="text-label text-ink-3 tabular-nums">KHI {clock || "--:--:--"}</span>
       </motion.div>
+
+      {/* Vertical edge label */}
+      <div className="pointer-events-none absolute left-6 md:left-8 top-1/2 -translate-y-1/2 hidden lg:block z-10">
+        <span className="text-label text-ink-3 tracking-[0.35em] [writing-mode:vertical-rl] rotate-180">
+          PORTFOLIO / 2026
+        </span>
+      </div>
 
       {/* Main content - parallax wrapper */}
       <motion.div
         style={{ y: yName, opacity }}
-        className="relative z-10 flex-1 flex flex-col justify-center px-6 md:px-10 pt-32 pb-24"
+        className="relative z-10 flex-1 flex flex-col justify-center px-6 md:px-10 pt-32 pb-28"
       >
         <div className="max-w-[1400px] mx-auto w-full">
 
-          {/* Name */}
-          <div className="select-none">
-            <div className="overflow-hidden">
-              <motion.div
-                initial={{ y: "110%" }}
-                animate={{ y: 0 }}
-                transition={{ duration: 1.1, ease: easeExpo, delay: 0.3 }}
-              >
-                <h1 className="text-hero text-ink leading-none">{hasanDisplay}</h1>
-              </motion.div>
+          {/* Name + spec sheet (spec fills the right side on desktop) */}
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10 lg:gap-16">
+            <div className="select-none w-fit">
+              <div className="overflow-hidden">
+                <motion.div
+                  initial={{ y: "110%" }}
+                  animate={{ y: 0 }}
+                  transition={{ duration: 1.1, ease: easeExpo, delay: 0.3 }}
+                >
+                  <h1 className="text-name is-spread text-ink" aria-label="Hasan">
+                    {line1.split("").map((c, i) => (
+                      <span key={i} aria-hidden="true">{c}</span>
+                    ))}
+                  </h1>
+                </motion.div>
+              </div>
+              <div className="overflow-hidden">
+                <motion.div
+                  initial={{ y: "110%" }}
+                  animate={{ y: 0 }}
+                  transition={{ duration: 1.1, ease: easeExpo, delay: 0.45 }}
+                >
+                  <h1 className="text-name text-outlined whitespace-nowrap" aria-label="Munir">
+                    {line2}
+                  </h1>
+                </motion.div>
+              </div>
             </div>
-            <div className="overflow-hidden">
-              <motion.div
-                initial={{ y: "110%" }}
-                animate={{ y: 0 }}
-                transition={{ duration: 1.1, ease: easeExpo, delay: 0.5 }}
-              >
-                <h1 className="text-hero text-outlined leading-none">{munirDisplay}</h1>
-              </motion.div>
-            </div>
+
+            {/* Spec sheet */}
+            <motion.dl
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.9, ease: easeExpo, delay: 1.1 }}
+              className="hidden lg:flex flex-col gap-3 shrink-0 min-w-[260px] border-l border-stroke pl-8 pb-1"
+            >
+              {SPECS.map(({ k, v, accent }) => (
+                <div key={k} className="flex items-baseline justify-between gap-6">
+                  <dt className="text-label text-ink-3">{k}</dt>
+                  <dd className={`text-label ${accent ? "text-fire" : "text-ink-2"}`}>{v}</dd>
+                </div>
+              ))}
+            </motion.dl>
           </div>
 
           {/* Divider + role */}
@@ -153,23 +231,37 @@ export function HeroSection() {
                   transition={{ duration: 0.9, ease: easeExpo, delay: 1.15 }}
                   className="text-label text-ink-2"
                 >
-                  NEXT.JS · NODE.JS · FASTAPI · MONGODB · POSTGRESQL
+                  {/* NEXT.JS · NODE.JS · FASTAPI · MONGODB · POSTGRESQL */}
+                  Product Engineering · Web · Backend · Cloud · DevOps
                 </motion.p>
               </div>
             </motion.div>
           </div>
 
+          {/* Stats row */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: easeExpo, delay: 1.3 }}
+            className="mt-10 md:mt-12 flex flex-wrap gap-x-8 gap-y-4 md:gap-x-12 border-t border-stroke pt-6"
+          >
+            {STATS.map((s) => (
+              <div key={s.k} className="flex flex-col">
+                <span className="font-display text-2xl md:text-3xl text-ink leading-none">{s.k}</span>
+                <span className="text-label text-ink-3 mt-1">{s.v}</span>
+              </div>
+            ))}
+          </motion.div>
+
           {/* Bio + CTAs */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: easeExpo, delay: 1.4 }}
-            className="mt-10 md:mt-14 flex flex-col md:flex-row items-start md:items-end justify-between gap-8"
+            transition={{ duration: 0.9, ease: easeExpo, delay: 1.5 }}
+            className="mt-10 md:mt-12 flex flex-col md:flex-row items-start md:items-end justify-between gap-8"
           >
             <p className="max-w-xs text-sm leading-relaxed text-ink-2">
-              I build multi-tenant SaaS end to end, database to interface.
-              School, freight, and POS platforms at TSN; Zikron and Attrisense
-              on my own.
+                I build and ship software end to end, from interfaces and APIs to databases, infrastructure, and deployment. Comfortable across stacks, products, and problem spaces.
             </p>
 
             <div className="flex flex-wrap items-center gap-3">
@@ -213,12 +305,34 @@ export function HeroSection() {
         </div>
       </motion.div>
 
+      {/* Tech marquee strip */}
+      {/* <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.9, duration: 0.8 }}
+        className="absolute bottom-20 left-0 right-0 border-y border-stroke py-2.5 overflow-hidden hidden sm:block"
+        aria-hidden="true"
+      >
+        <div className="marquee-track">
+          {[0, 1].map((n) => (
+            <div className="marquee-content" key={n}>
+              {MARQUEE.map((t) => (
+                <span key={`${n}-${t}`} className="flex items-center">
+                  <span className="text-label text-ink-3 px-6">{t}</span>
+                  <span className="text-fire text-[10px]">/</span>
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </motion.div> */}
+
       {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2.0, duration: 0.8 }}
-        className="absolute bottom-8 left-6 md:left-10 flex items-center gap-3"
+        className="absolute bottom-8 left-6 md:left-10 flex items-center gap-3 z-10"
       >
         <motion.div
           animate={{ y: [0, 6, 0] }}
@@ -232,9 +346,9 @@ export function HeroSection() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.8, duration: 0.6 }}
-        className="absolute bottom-8 right-6 md:right-10"
+        className="absolute bottom-8 right-6 md:right-10 z-10"
       >
-        <span className="text-label text-ink-3">2026</span>
+        <span className="text-label text-ink-3">MMXXVI</span>
       </motion.div>
     </section>
   );

@@ -36,7 +36,7 @@ const PROJECTS = [
     ],
     stack: ["Next.js 16", "React 19", "TypeScript", "Node.js", "Express", "Supabase", "PostgreSQL RLS", "Zustand", "SWR", "Puppeteer"],
     type: "Multi-tenant SaaS",
-    year: "2025",
+    // year: "2025",
     link: "",
     accent: "#FF4500",
   },
@@ -53,7 +53,7 @@ const PROJECTS = [
     ],
     stack: ["Next.js 16", "React 19", "TypeScript", "Supabase", "Stripe", "Redis", "TanStack Query", "Zod", "Tailwind CSS v4", "@react-pdf/renderer"],
     type: "Multi-tenant SaaS",
-    year: "2025",
+    // year: "2025",
     link: "https://repairbooking.co.uk/",
     accent: "#FF4500",
   },
@@ -68,9 +68,9 @@ const PROJECTS = [
       "Shipment history built as an append-only event log enforced by database triggers, a tamper-proof delivery audit record",
       "Portal access modeled as a computed consequence of the corporate sales-pipeline stage, removing a manual approve/reject workflow",
     ],
-    stack: ["Next.js 16", "React 19", "TypeScript", "Express 5", "Supabase", "Stripe", "Redis + BullMQ", "WebSocket", "Mapbox GL", "Typesense"],
+    stack: ["Next.js 16", "React 19", "TypeScript", "Express 5", "Supabase", "Stripe", "WebSocket", "Mapbox GL", "Typesense"],
     type: "Multi-tenant SaaS",
-    year: "2025",
+    // year: "2025",
     link: "https://logical-links.vercel.app/",
     accent: "#FF4500",
   },
@@ -87,7 +87,7 @@ const PROJECTS = [
     ],
     stack: ["Next.js 16", "React 19", "TypeScript", "Express 4", "Supabase", "TanStack Query", "FullCalendar", "React Flow", "web-push", "Resend"],
     type: "B2C SaaS",
-    year: "2025",
+    // year: "2025",
     link: "https://zikron.hasanmunir.dev/",
     accent: "#FF4500",
   },
@@ -104,7 +104,7 @@ const PROJECTS = [
     ],
     stack: ["Python", "scikit-learn", "FastAPI", "Pydantic v2", "pandas", "SHAP", "Next.js 14", "React 18", "TypeScript", "Recharts"],
     type: "ML Application",
-    year: "2024",
+    // year: "2024",
     link: "https://attrisense.hasanmunir.dev/",
     accent: "#FF4500",
   },
@@ -212,7 +212,7 @@ function ProjectRow({
 
         {/* Meta */}
         <div className="hidden md:flex flex-col items-end gap-1 shrink-0">
-          <span className="text-label text-ink-3">{project.year}</span>
+          {/* <span className="text-label text-ink-3">{project.year}</span> */}
           <span className="text-label text-ink-3">{project.type}</span>
         </div>
 

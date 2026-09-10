@@ -63,7 +63,7 @@ html {
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
   /* `clip` (not `hidden`) stops horizontal overflow without turning the page
-     into a scroll container — otherwise `position: sticky` breaks everywhere. */
+     into a scroll container, otherwise `position: sticky` breaks everywhere. */
   overflow-x: clip;
 }
 
@@ -84,6 +84,21 @@ body {
   font-size: clamp(100px, 17vw, 220px);
   line-height: 0.88;
   letter-spacing: -0.01em;
+}
+
+/* Hero name - sized so the longer line ("HASAN MUNIR") always fits one row */
+.text-name {
+  font-family: var(--font-display);
+  font-size: clamp(46px, 15.5vw, 172px);
+  line-height: 0.9;
+  letter-spacing: -0.01em;
+}
+
+/* MUHAMMAD row: spread its letters edge-to-edge to match the row below */
+.text-name.is-spread {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .text-section {
@@ -164,12 +179,12 @@ body {
 .section {
   position: relative;
   padding: clamp(80px, 12vw, 160px) clamp(24px, 6vw, 80px);
-  /* Skip rendering work for sections far offscreen — faster first paint */
+  /* Skip rendering work for sections far offscreen, faster first paint */
   content-visibility: auto;
   contain-intrinsic-size: auto 1200px;
 }
 
-/* Experience relies on a sticky child — containment would trap it, so opt out. */
+/* Experience relies on a sticky child; containment would trap it, so opt out. */
 #experience.section {
   content-visibility: visible;
   contain: none;
@@ -309,7 +324,7 @@ body::before {
 }
 
 .btn-outline:hover {
-  border-color: var(--text-2);
+  border-color: var(--accent);
   color: var(--text);
 }
 
@@ -489,6 +504,42 @@ footer {
 
 @media (prefers-reduced-motion: reduce) {
   .backdrop__aurora { animation: none !important; }
+}
+
+/* On small screens the section overlays cover most of the viewport, so push the
+   red/blue aurora harder and thin the overlay a little so it reads through. */
+@media (max-width: 768px) {
+  .backdrop__aurora { filter: blur(64px); }
+  .backdrop__a1 {
+    width: 90vw; height: 90vw; left: -22vw; top: -14vw;
+    background: radial-gradient(circle at 32% 32%, rgba(255, 69, 0, 0.34), transparent 70%);
+  }
+  .backdrop__a2 {
+    width: 96vw; height: 96vw; right: -34vw; top: 8vh;
+    background: radial-gradient(circle at 50% 50%, rgba(91, 141, 239, 0.30), transparent 70%);
+  }
+  .backdrop__a3 {
+    width: 80vw; height: 80vw;
+    background: radial-gradient(circle at 50% 50%, rgba(38, 190, 178, 0.16), transparent 70%);
+  }
+  .hero-bg {
+    background: linear-gradient(
+      to bottom,
+      rgba(2, 4, 8, 0.0)  0%,
+      rgba(2, 4, 8, 0.0)  60%,
+      rgba(2, 4, 8, 0.5)  82%,
+      rgba(2, 4, 8, 0.92) 100%
+    );
+  }
+  .section-bg {
+    background: linear-gradient(
+      to bottom,
+      rgba(2, 4, 8, 0.0)  0%,
+      rgba(2, 4, 8, 0.7)  9%,
+      rgba(2, 4, 8, 0.7)  91%,
+      rgba(2, 4, 8, 0.0)  100%
+    );
+  }
 }
 
 .text-fire { color: var(--accent); }

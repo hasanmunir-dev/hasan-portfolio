@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion
 
 /**
  * Lightweight animated background: drifting aurora blobs + a parallaxed grid.
- * Pure CSS transforms — no canvas, no 3D — so it stays cheap to render.
+ * Pure CSS transforms, no canvas, no 3D, so it stays cheap to render.
  */
 export function Backdrop() {
   const reduce = useReducedMotion();
