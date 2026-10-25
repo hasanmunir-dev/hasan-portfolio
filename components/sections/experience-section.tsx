@@ -4,7 +4,10 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { EXPERIENCES, type Experience } from "@/lib/data/experience";
-import { getExperienceDuration, formatExperiencePeriod } from "@/lib/utils/experience";
+import {
+  getExperienceDuration,
+  formatExperiencePeriod,
+} from "@/lib/utils/experience";
 
 const easeExpo = [0.16, 1, 0.3, 1] as const;
 
@@ -22,7 +25,8 @@ function ExperienceDetail({ exp }: { exp: Experience }) {
               {exp.role.toUpperCase()}
             </h3>
             <p className="text-label text-ink-2">
-              @ {exp.company} · {formatExperiencePeriod(exp.startDate, exp.endDate)}
+              @ {exp.company} ·{" "}
+              {formatExperiencePeriod(exp.startDate, exp.endDate)}
             </p>
           </div>
           <a
@@ -122,12 +126,17 @@ export function ExperienceSection({
                   <span
                     className={`company-name ${on ? "text-fire" : "text-ink-2 md:text-ink-3"}`}
                   >
-                    {e.company}
+                    {e.acronym}
                   </span>
                   <span
                     className={`text-label mt-0.5 md:mt-1 ${on ? "text-ink-2" : "text-ink-3"}`}
                   >
-                    {getExperienceDuration(e.startDate, e.endDate)}
+                    <span className="md:hidden">
+                      {getExperienceDuration(e.startDate, e.endDate, true)}
+                    </span>
+                    <span className="hidden md:inline">
+                      {getExperienceDuration(e.startDate, e.endDate)}
+                    </span>
                   </span>
                 </button>
               );

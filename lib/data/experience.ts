@@ -4,6 +4,7 @@
 
 export interface Experience {
   index: string;
+  acronym: string;
   company: string;
   role: string;
   period: string;
@@ -19,6 +20,7 @@ export interface Experience {
 export const EXPERIENCES: Experience[] = [
   {
   index: "01",
+  acronym: "KV",
   company: "Kloudville",
   role: "Application Developer",
   period: "Oct 26 - Present",
@@ -44,7 +46,8 @@ export const EXPERIENCES: Experience[] = [
 },
   {
     index: "02",
-    company: "TSN",
+    acronym: "TSN",
+    company: "The Social Nexus",
     role: "Full-Stack Software Engineer",
     period: "1+ Years",
     startDate: "2025-07",
@@ -65,6 +68,7 @@ export const EXPERIENCES: Experience[] = [
   },
   {
     index: "03",
+    acronym: "SB",
     company: "SeeBiz",
     role: "Full-Stack Developer",
     period: "1 Year", 
