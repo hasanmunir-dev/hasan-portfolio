@@ -222,7 +222,7 @@ export function CertificationsSection() {
       <div className="section-inner relative z-10">
         {/* Section header */}
         <div className="flex items-center gap-4 mb-16">
-          <span className="text-label text-fire">05</span>
+          <span className="text-label text-fire">06</span>
           <div className="h-px flex-1 bg-stroke" />
           <span className="text-label text-ink-3">CREDENTIALS</span>
         </div>

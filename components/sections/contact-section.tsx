@@ -75,7 +75,7 @@ export function ContactSection() {
 
         {/* Header */}
         <div className="flex items-center gap-4 mb-16">
-          <span className="text-label text-fire">05</span>
+          <span className="text-label text-fire">07</span>
           <div className="h-px flex-1 bg-stroke" />
           <span className="text-label text-ink-3">SIGNAL</span>
         </div>

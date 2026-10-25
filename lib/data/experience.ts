@@ -7,7 +7,10 @@ export interface Experience {
   company: string;
   role: string;
   period: string;
+  startDate: string;
+  endDate?: string;
   type: string;
+  location: string;
   url: string;
   highlights: string[];
   stack: string[];
@@ -15,11 +18,39 @@ export interface Experience {
 
 export const EXPERIENCES: Experience[] = [
   {
-    index: "01",
+  index: "01",
+  company: "Kloudville",
+  role: "Application Developer",
+  period: "Oct 26 - Present",
+  startDate: "2026-10",
+  type: "Full-time",
+  location: "Remote",
+  url: "https://kloudville.com",
+  highlights: [
+    "Working on enterprise telecom applications and digital marketplace solutions for Ooredoo, supporting product catalog management and application operations.",
+    "Managing and configuring marketplace product listings, including pricing, specifications, images, and product information.",
+    "Reviewing and testing REST APIs using Postman, including TM Forum Open API specifications such as TMF622 for product ordering.",
+    "Collaborating with the development team to analyze API behavior, validate requests and responses, and identify required enhancements.",
+    "Working with enterprise development workflows, including SVN version control, technical documentation, and task tracking.",
+  ],
+  stack: [
+    "REST APIs",
+    "Postman",
+    "TM Forum APIs",
+    "JSON",
+    "SVN",
+    "API Testing",
+  ],
+},
+  {
+    index: "02",
     company: "TSN",
     role: "Full-Stack Software Engineer",
     period: "1+ Years",
+    startDate: "2025-07",
+    endDate: "2026-10",
     type: "Full-time",
+    location: "Remote",
     url: "https://thesocialnexus.co",
     highlights: [
       "Lead full-stack developer on three multi-tenant B2B SaaS platforms (a school management system, a freight & delivery operations platform, and a repair-shop POS), all on a shared Next.js / React / TypeScript + Express + Supabase stack",
@@ -33,11 +64,14 @@ export const EXPERIENCES: Experience[] = [
     stack: ["Next.js", "React", "Python", "TypeScript", "Express", "FastAPI", "Supabase", "MongoDB", "PostgreSQL RLS", "Stripe"],
   },
   {
-    index: "02",
+    index: "03",
     company: "SeeBiz",
     role: "Full-Stack Developer",
-    period: "1 Year",
+    period: "1 Year", 
+    startDate: "2024-08",
+    endDate: "2025-07",
     type: "Apprenticeship",
+    location: "Onsite",
     url: "https://see.biz",
     highlights: [
       "One-year full-stack software engineering apprenticeship inside a live production MERN codebase",

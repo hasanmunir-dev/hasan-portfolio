@@ -19,7 +19,7 @@ export function ProjectsSection() {
 
         {/* Header */}
         <div className="flex items-center gap-4 mb-16">
-          <span className="text-label text-fire">01</span>
+          <span className="text-label text-fire">03</span>
           <div className="h-px flex-1 bg-stroke" />
           <span className="text-label text-ink-3">PORTFOLIO</span>
         </div>

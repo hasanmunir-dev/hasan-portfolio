@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { EXPERIENCES, type Experience } from "@/lib/data/experience";
+import { getExperienceDuration, formatExperiencePeriod } from "@/lib/utils/experience";
 
 const easeExpo = [0.16, 1, 0.3, 1] as const;
 
@@ -13,12 +14,15 @@ function ExperienceDetail({ exp }: { exp: Experience }) {
       <div className="mb-8 pb-8 border-b border-stroke">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <p className="text-label text-ink-3 mb-2">{exp.type.toUpperCase()}</p>
+            <p className="text-label flex justify-between text-ink-3 mb-2">
+              <span>{exp.type.toUpperCase()}</span>
+              <span>{exp.location}</span>
+            </p>
             <h3 className="font-display text-4xl md:text-5xl text-ink tracking-wide mb-1">
               {exp.role.toUpperCase()}
             </h3>
             <p className="text-label text-ink-2">
-              @ {exp.company} · {exp.period}
+              @ {exp.company} · {formatExperiencePeriod(exp.startDate, exp.endDate)}
             </p>
           </div>
           <a
@@ -44,7 +48,10 @@ function ExperienceDetail({ exp }: { exp: Experience }) {
 
       <div className="flex flex-wrap gap-2">
         {exp.stack.map((s) => (
-          <span key={s} className="text-label text-ink-3 border border-stroke px-3 py-1.5">
+          <span
+            key={s}
+            className="text-label text-ink-3 border border-stroke px-3 py-1.5"
+          >
             {s}
           </span>
         ))}
@@ -53,7 +60,9 @@ function ExperienceDetail({ exp }: { exp: Experience }) {
   );
 }
 
-export function ExperienceSection({ standalone = false }: { standalone?: boolean } = {}) {
+export function ExperienceSection({
+  standalone = false,
+}: { standalone?: boolean } = {}) {
   const reduce = useReducedMotion();
   const [active, setActive] = useState(0);
 
@@ -68,7 +77,7 @@ export function ExperienceSection({ standalone = false }: { standalone?: boolean
       <div className="section-inner">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
-          <span className="text-label text-fire">04</span>
+          <span className="text-label text-fire">05</span>
           <div className="h-px flex-1 bg-stroke" />
           <span className="text-label text-ink-3">CHRONICLES</span>
         </div>
@@ -104,13 +113,21 @@ export function ExperienceSection({ standalone = false }: { standalone?: boolean
                       transition={{ duration: 0.3, ease: easeExpo }}
                       className="hidden md:block h-px bg-fire"
                     />
-                    <span className={`text-label ${on ? "text-fire" : "text-ink-3"}`}>{e.index}</span>
+                    <span
+                      className={`text-label ${on ? "text-fire" : "text-ink-3"}`}
+                    >
+                      {e.index}
+                    </span>
                   </div>
-                  <span className={`company-name ${on ? "text-fire" : "text-ink-2 md:text-ink-3"}`}>
+                  <span
+                    className={`company-name ${on ? "text-fire" : "text-ink-2 md:text-ink-3"}`}
+                  >
                     {e.company}
                   </span>
-                  <span className={`text-label mt-0.5 md:mt-1 ${on ? "text-ink-2" : "text-ink-3"}`}>
-                    {e.period}
+                  <span
+                    className={`text-label mt-0.5 md:mt-1 ${on ? "text-ink-2" : "text-ink-3"}`}
+                  >
+                    {getExperienceDuration(e.startDate, e.endDate)}
                   </span>
                 </button>
               );
